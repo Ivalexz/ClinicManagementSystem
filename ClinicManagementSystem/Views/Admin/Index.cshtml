@@ -1,0 +1,29 @@
+﻿@{
+    ViewData["Title"] = "Адмін панель";
+}
+
+<h2 class="mb-4">Адмін панель</h2>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card shadow-sm mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Користувачі</h5>
+                <p class="card-text">Управління власниками тварин</p>
+                <a href="/Admin/CreateUser" class="btn btn-primary w-100 mb-2">➕ Створити користувача</a>
+                <a href="/Admin/Users" class="btn btn-outline-primary w-100">📋 Список користувачів</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card shadow-sm mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Тварини</h5>
+                <p class="card-text">Управління тваринами та медкартами</p>
+                <a href="/Admin/CreateAnimal" class="btn btn-success w-100 mb-2">➕ Додати тварину</a>
+                <a href="/Admin/Animals" class="btn btn-outline-success w-100">🐾 Список тварин</a>
+            </div>
+        </div>
+    </div>
+</div>

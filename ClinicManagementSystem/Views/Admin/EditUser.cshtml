@@ -1,0 +1,25 @@
+﻿@model ApplicationUser
+
+<h2 class="mb-4">Редагування користувача</h2>
+
+<form method="post" asp-action="EditUser">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="mb-3">
+        <label class="form-label">Ім'я</label>
+        <input asp-for="FirstName" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Прізвище</label>
+        <input asp-for="LastName" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input asp-for="Email" class="form-control" />
+    </div>
+
+    <button class="btn btn-primary">Зберегти</button>
+    <a href="/Admin/Users" class="btn btn-secondary">Назад</a>
+</form>

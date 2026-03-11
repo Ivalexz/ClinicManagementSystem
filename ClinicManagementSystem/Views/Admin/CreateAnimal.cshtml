@@ -1,0 +1,39 @@
+﻿@model Animal
+
+<h2 class="mb-4">Додати тварину</h2>
+
+<form method="post" asp-action="CreateAnimal">
+
+    <div class="mb-3">
+        <label class="form-label">Ім'я</label>
+        <input asp-for="Name" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Вид</label>
+        <input asp-for="Species" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Порода</label>
+        <input asp-for="Breed" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Стать</label>
+        <input asp-for="Gender" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Дата народження</label>
+        <input asp-for="DateOfBirth" type="date" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">ID власника</label>
+        <input asp-for="ClientId" class="form-control" />
+    </div>
+
+    <button class="btn btn-success">Створити</button>
+    <a href="/Admin/Animals" class="btn btn-secondary">Назад</a>
+</form>

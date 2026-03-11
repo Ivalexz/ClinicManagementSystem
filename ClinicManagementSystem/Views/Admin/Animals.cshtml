@@ -1,0 +1,33 @@
+﻿@model IEnumerable<Animal>
+
+<h2 class="mb-4">Список тварин</h2>
+
+<a href="/Admin/CreateAnimal" class="btn btn-success mb-3">➕ Додати тварину</a>
+
+<table class="table table-bordered table-striped">
+    <thead class="table-dark">
+    <tr>
+        <th>Ім'я</th>
+        <th>Вид</th>
+        <th>Порода</th>
+        <th>Власник</th>
+        <th>Дії</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var a in Model)
+    {
+        <tr>
+            <td>@a.Name</td>
+            <td>@a.Species</td>
+            <td>@a.Breed</td>
+            <td>@a.Client?.FirstName @a.Client?.LastName</td>
+            <td>
+                <a href="/Admin/MedicalCard/@a.MedicalCardId" class="btn btn-info btn-sm">📋 Медкарта</a>
+                <a href="/Admin/DeleteAnimal/@a.Id" class="btn btn-danger btn-sm"
+                   onclick="return confirm('Видалити тварину?')">🗑 Видалити</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

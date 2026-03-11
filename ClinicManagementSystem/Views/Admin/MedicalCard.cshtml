@@ -1,0 +1,43 @@
+﻿@model MedicalCard
+
+<h2 class="mb-4">Медична картка</h2>
+
+<p><strong>Дата створення:</strong> @Model.CreateDate.ToShortDateString()</p>
+
+<h4 class="mt-4">Прийоми</h4>
+
+@if (Model.Appointments.Any())
+{
+    <table class="table table-bordered">
+        <thead class="table-dark">
+        <tr>
+            <th>Назва</th>
+            <th>Дата</th>
+            <th>Лікар</th>
+            <th>Діагноз</th>
+            <th>Призначення</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var a in Model.Appointments)
+        {
+            <tr>
+                <td>@a.Name</td>
+                <td>@a.DateTime</td>
+                <td>@a.Doctor?.User?.FirstName @a.Doctor?.User?.LastName</td>
+                <td>@a.Diagnosis</td>
+                <td>
+                    @foreach (var p in a.Prescriptions)
+                    {
+                        <div>@p.Name — @p.Duration — @p.Frequency</div>
+                    }
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Немає прийомів</p>
+}
