@@ -6,10 +6,10 @@ namespace ClinicManagementSystem;
 
 public class Program
 {
-    public static void Main(string[] args)
+    public static async Task Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
-        
+
         builder.Services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
@@ -49,12 +49,38 @@ public class Program
         using (var scope = app.Services.CreateScope())
         {
             var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-            string[] roles = { "SuperAdmin", "Admin", "Doctor", "User" };
+            var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
+            string[] roles = { "SuperAdmin", "Admin", "Doctor", "User" };
+            
             foreach (var role in roles)
             {
-                if (!roleManager.RoleExistsAsync(role).Result)
-                    roleManager.CreateAsync(new IdentityRole(role)).Wait();
+                if (!await roleManager.RoleExistsAsync(role))
+                    await roleManager.CreateAsync(new IdentityRole(role));
+            }
+
+            // Create SuperAdmin
+            string email = "superadmin@clinic.com";
+            string password = "Admin123!";
+
+            var superAdmin = await userManager.FindByEmailAsync(email);
+
+            if (superAdmin == null)
+            {
+                superAdmin = new ApplicationUser
+                {
+                    UserName = email,
+                    Email = email,
+                    FirstName = "Super",
+                    LastName = "Admin"
+                };
+
+                var result = await userManager.CreateAsync(superAdmin, password);
+
+                if (result.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(superAdmin, "SuperAdmin");
+                }
             }
         }
 

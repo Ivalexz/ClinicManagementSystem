@@ -3,6 +3,7 @@ using System;
 using ClinicManagementSystem.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClinicManagementSystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260312062341_UpdateDatabase")]
+    partial class UpdateDatabase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "10.0.4");
@@ -189,6 +192,34 @@ namespace ClinicManagementSystem.Migrations
                     b.ToTable("Appointments");
                 });
 
+            modelBuilder.Entity("ClinicManagementSystem.Models.Doctor", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("EducationDocument")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Specialization")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("Doctors");
+                });
+
             modelBuilder.Entity("ClinicManagementSystem.Models.MedicalCard", b =>
                 {
                     b.Property<int>("Id")
@@ -242,49 +273,6 @@ namespace ClinicManagementSystem.Migrations
                     b.HasIndex("AppointmentId");
 
                     b.ToTable("Prescriptions");
-                });
-
-            modelBuilder.Entity("Doctor", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("EducationDocument")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("ExperienceYears")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("OfficeNumber")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Specialization")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
-
-                    b.ToTable("Doctors");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -442,7 +430,7 @@ namespace ClinicManagementSystem.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Doctor", "Doctor")
+                    b.HasOne("ClinicManagementSystem.Models.Doctor", "Doctor")
                         .WithMany()
                         .HasForeignKey("DoctorId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -457,6 +445,17 @@ namespace ClinicManagementSystem.Migrations
                     b.Navigation("Doctor");
                 });
 
+            modelBuilder.Entity("ClinicManagementSystem.Models.Doctor", b =>
+                {
+                    b.HasOne("ClinicManagementSystem.Models.ApplicationUser", "User")
+                        .WithOne()
+                        .HasForeignKey("ClinicManagementSystem.Models.Doctor", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("ClinicManagementSystem.Models.Prescription", b =>
                 {
                     b.HasOne("ClinicManagementSystem.Models.Appointment", "Appointment")
@@ -466,17 +465,6 @@ namespace ClinicManagementSystem.Migrations
                         .IsRequired();
 
                     b.Navigation("Appointment");
-                });
-
-            modelBuilder.Entity("Doctor", b =>
-                {
-                    b.HasOne("ClinicManagementSystem.Models.ApplicationUser", "User")
-                        .WithOne()
-                        .HasForeignKey("Doctor", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

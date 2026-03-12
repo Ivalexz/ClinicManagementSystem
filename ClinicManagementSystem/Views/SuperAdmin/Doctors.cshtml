@@ -1,0 +1,31 @@
+﻿@model IEnumerable<ApplicationUser>
+
+<h2 class="mb-4">Доктори</h2>
+
+<a href="/SuperAdmin/CreateDoctor" class="btn btn-success mb-3">➕ Створити доктора</a>
+
+<table class="table table-hover table-bordered shadow-sm">
+    <thead class="table-dark">
+    <tr>
+        <th>Ім'я</th>
+        <th>Прізвище</th>
+        <th>Email</th>
+        <th style="width: 180px;">Дії</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var user in Model)
+    {
+        <tr>
+            <td>@user.FirstName</td>
+            <td>@user.LastName</td>
+            <td>@user.Email</td>
+            <td>
+                <a href="/SuperAdmin/Edit/@user.Id" class="btn btn-warning btn-sm">✏ Редагувати</a>
+                <a href="/SuperAdmin/Delete/@user.Id" class="btn btn-danger btn-sm"
+                   onclick="return confirm('Видалити доктора?')">🗑 Видалити</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

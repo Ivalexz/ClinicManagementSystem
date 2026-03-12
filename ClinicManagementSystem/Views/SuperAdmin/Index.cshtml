@@ -1,0 +1,31 @@
+﻿@{
+    ViewData["Title"] = "Super Admin Панель";
+}
+
+<h2 class="mb-4">Super Admin Панель</h2>
+
+<div class="row">
+
+    <div class="col-md-4">
+        <div class="card shadow-sm mb-3 border-0">
+            <div class="card-body">
+                <h5 class="card-title">Адміни</h5>
+                <p class="text-muted">Керування адміністраторами системи</p>
+                <a href="/SuperAdmin/Admins" class="btn btn-primary w-100 mb-2">📋 Список адмінів</a>
+                <a href="/SuperAdmin/CreateAdmin" class="btn btn-outline-primary w-100">➕ Створити адміна</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card shadow-sm mb-3 border-0">
+            <div class="card-body">
+                <h5 class="card-title">Доктори</h5>
+                <p class="text-muted">Керування лікарями клініки</p>
+                <a href="/SuperAdmin/Doctors" class="btn btn-success w-100 mb-2">📋 Список докторів</a>
+                <a href="/SuperAdmin/CreateDoctor" class="btn btn-outline-success w-100">➕ Створити доктора</a>
+            </div>
+        </div>
+    </div>
+
+</div>

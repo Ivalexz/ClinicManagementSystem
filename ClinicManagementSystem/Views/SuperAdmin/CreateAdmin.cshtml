@@ -1,0 +1,31 @@
+﻿@model ApplicationUser
+
+<h2 class="mb-4">Створення Адміна</h2>
+
+<form method="post" asp-action="CreateAdmin" class="shadow p-4 rounded bg-white">
+    
+    <div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+    <div class="mb-3">
+        <label class="form-label">Ім'я</label>
+        <input asp-for="FirstName" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Прізвище</label>
+        <input asp-for="LastName" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input asp-for="Email" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Пароль</label>
+        <input type="password" name="password" class="form-control" />
+    </div>
+
+    <button class="btn btn-primary">Створити</button>
+    <a href="/SuperAdmin/Admins" class="btn btn-secondary">Назад</a>
+</form>
