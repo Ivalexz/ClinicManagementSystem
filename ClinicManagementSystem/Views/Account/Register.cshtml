@@ -1,24 +1,103 @@
 ﻿@{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = "Реєстрація";
 }
 
-<h2>Register</h2>
+<div class="auth-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-5 col-lg-4">
 
-@if (ViewBag.Error != null)
-{
-    <p style="color:red">@ViewBag.Error</p>
+                <div class="auth-card">
+                    <div class="auth-logo mb-4">
+                        <div class="logo-icon mx-auto mb-3">
+                            <i class="bi bi-heart-pulse-fill"></i>
+                        </div>
+                        <h1 class="auth-title">Створити акаунт</h1>
+                        <p class="auth-sub">Зареєструйтесь, щоб керувати здоров'ям вашого улюбленця</p>
+                    </div>
+
+                    @if (ViewBag.Error != null)
+                    {
+                        <div class="auth-alert mb-3">
+                            <i class="bi bi-exclamation-circle-fill me-2"></i>@ViewBag.Error
+                        </div>
+                    }
+
+                    <form asp-controller="Account" asp-action="Register" method="post">
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <div class="input-icon-wrap">
+                                <i class="bi bi-envelope input-icon"></i>
+                                <input type="email" name="email" class="form-control ps-input-icon"
+                                       placeholder="your@email.com" required autocomplete="email"/>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Пароль</label>
+                            <div class="input-icon-wrap">
+                                <i class="bi bi-lock input-icon"></i>
+                                <input type="password" name="password" id="password" class="form-control ps-input-icon"
+                                       placeholder="••••••••" required autocomplete="new-password"/>
+                            </div>
+                            <div class="password-hint mt-1">
+                                Мінімум 6 символів, велика літера та цифра
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">Підтвердження пароля</label>
+                            <div class="input-icon-wrap">
+                                <i class="bi bi-lock-fill input-icon"></i>
+                                <input type="password" name="confirmPassword" id="confirmPassword"
+                                       class="form-control ps-input-icon"
+                                       placeholder="••••••••" required autocomplete="new-password"/>
+                            </div>
+                            <div id="password-match-msg" class="password-hint mt-1"></div>
+                        </div>
+
+                        <button type="submit" id="submit-btn" class="btn-submit">
+                            Зареєструватися <i class="bi bi-arrow-right ms-2"></i>
+                        </button>
+                    </form>
+
+                    <p class="auth-footer-text mt-4">
+                        Вже маєте акаунт?
+                        <a asp-controller="Account" asp-action="Login" class="auth-link">Увійти</a>
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    const pwd     = document.getElementById('password');
+    const confirm = document.getElementById('confirmPassword');
+    const msg     = document.getElementById('password-match-msg');
+    const btn     = document.getElementById('submit-btn');
+
+    function checkMatch() {
+        if (confirm.value.length === 0) {
+            msg.textContent = '';
+            msg.className = 'password-hint mt-1';
+            btn.disabled = false;
+            return;
+        }
+        if (pwd.value === confirm.value) {
+            msg.textContent = '✓ Паролі співпадають';
+            msg.className = 'password-hint mt-1 text-match';
+            btn.disabled = false;
+        } else {
+            msg.textContent = '✗ Паролі не співпадають';
+            msg.className = 'password-hint mt-1 text-nomatch';
+            btn.disabled = true;
+        }
+    }
+
+    pwd.addEventListener('input', checkMatch);
+    confirm.addEventListener('input', checkMatch);
+</script>
 }
-
-<form asp-action="Register" method="post">
-    <div>
-        <label>Email</label>
-        <input type="email" name="email" required />
-    </div>
-    <div>
-        <label>Password</label>
-        <input type="password" name="password" required />
-    </div>
-    <button type="submit">Register</button>
-</form>
-
-<p>Вже маєте акаунт? <a asp-action="Login">Увійти</a></p>
