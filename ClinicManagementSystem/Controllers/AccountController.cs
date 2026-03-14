@@ -1,4 +1,5 @@
 ﻿using ClinicManagementSystem.Models;
+using ClinicManagementSystem.ViewModels.Account;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,12 +18,14 @@ public class AccountController : Controller
         _signInManager = signInManager;
     }
 
+    [HttpGet]
     public IActionResult Login()
     {
         return View();
     }
 
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Login(string email, string password)
     {
         var result = await _signInManager.PasswordSignInAsync(email, password, false, false);
@@ -36,21 +39,30 @@ public class AccountController : Controller
         return RedirectToAction("Index", "Home");
     }
 
+    [HttpGet]
     public IActionResult Register()
     {
-        return View();
+        return View(new RegisterViewModel());
     }
 
     [HttpPost]
-    public async Task<IActionResult> Register(string email, string password)
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Register(RegisterViewModel model)
     {
+        if (!ModelState.IsValid)
+        {
+            return View(model);
+        }
+        
         var user = new ApplicationUser
         {
-            UserName = email,
-            Email = email
+            UserName = model.Email,
+            Email = model.Email,
+            FirstName = model.FirstName,
+            LastName = model.LastName
         };
 
-        var result = await _userManager.CreateAsync(user, password);
+        var result = await _userManager.CreateAsync(user, model.Password);
 
         if (!result.Succeeded)
         {

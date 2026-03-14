@@ -1,6 +1,159 @@
 ﻿@{
-    ViewData["Title"] = "Privacy Policy";
+ViewData["Title"] = "Політика конфіденційності";
 }
-<h1>@ViewData["Title"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<section class="privacy-section py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <h1 class="mb-4">Політика конфіденційності</h1>
+
+                <p class="text-muted mb-4">Остання оновлення: <strong>2026</strong></p>
+
+                <div class="privacy-content">
+                    <!-- Introduction -->
+                    <h2 class="section-title mt-5 mb-3">Вступ</h2>
+                    <p>
+                        PawCare віддана захисту вашої приватності. Цей документ пояснює, як ми збираємо,
+                        використовуємо та захищаємо ваші персональні дані при взаємодії з нашою ветеринарною клінікою.
+                    </p>
+
+                    <!-- Data Collection -->
+                    <h2 class="section-title mt-5 mb-3">1. Яку інформацію ми збираємо</h2>
+                    <p>Ми можемо збирати наступну персональну інформацію:</p>
+                    <ul class="custom-list">
+                        <li><strong>Контактні дані:</strong> ім'я, прізвище, телефон, електронна пошта, адреса</li>
+                        <li><strong>Дані про тварин:</strong> породи, вік, медична картка, історія хворіб, лікування</li>
+                        <li><strong>Технічні дані:</strong> IP-адреса, тип браузера, час відвідання сайту (через cookies)</li>
+                    </ul>
+
+                    <!-- Data Usage -->
+                    <h2 class="section-title mt-5 mb-3">2. Як ми використовуємо вашу інформацію</h2>
+                    <p>Ваші дані використовуються для:</p>
+                    <ul class="custom-list">
+                        <li>Надання ветеринарних послуг</li>
+                        <li>Зв'язку з вами щодо записів та результатів аналізів</li>
+                        <li>Поліпшення якості послуг на основі вашого досвіду</li>
+                        <li>Дотримання юридичних та нормативних вимог</li>
+                        <li>Запобігання шахрайству та захисту безпеки</li>
+                    </ul>
+
+                    <!-- Cookies -->
+                    <h2 class="section-title mt-5 mb-3">3. Cookies та відстеження</h2>
+                    <p>
+                        Наш сайт використовує cookies для поліпшення користувацького досвіду. Cookies — це невеликі файли,
+                        які зберігаються на вашому пристрої. Ви можете контролювати cookies через налаштування вашого браузера.
+                    </p>
+
+                    <!-- Third Parties -->
+                    <h2 class="section-title mt-5 mb-3">4. Передача даних третім сторонам</h2>
+                    <p>
+                        Ми не продаємо, не обмінюємо та не передаємо ваші персональні дані третім сторонам без вашої
+                        згоди, за винятком випадків, коли це вимагається законом (наприклад, для медичної документації).
+                    </p>
+                    <!-- Data Retention -->
+                    <h2 class="section-title mt-5 mb-3">5. Зберігання даних</h2>
+                    <p>
+                        Ми зберігаємо ваші персональні дані протягом всього часу, необхідного для надання послуг.
+                        Медичні записи зберігаються відповідно до вимог законодавства. Ви можете запросити видалення
+                        даних у будь-який час, якщо це не суперечить юридичним обов'язкам.
+                    </p>
+
+                    <!-- Contact -->
+                    <h2 class="section-title mt-5 mb-3">6. Контакти</h2>
+                    <p>Якщо у вас виникли питання щодо цієї політики, будь ласка, звертайтесь:</p>
+                    <div class="contact-box mt-3">
+                        <p><strong>PawCare Vet Clinic</strong></p>
+                        <p>вул. Любомира Гузара 49</p>
+                        <p><a href="tel:+380991234567">+38 (099) 123-45-67</a></p>
+                        <p>Пн–Нд: 8:00–21:00</p>
+                        <p><a href="mailto:info@pawcare.ua">info@pawcare.ua</a></p>
+                    </div>
+
+                    <!-- Changes -->
+                    <h2 class="section-title mt-5 mb-3">7. Зміни в політиці</h2>
+                    <p>
+                        Ми можемо оновлювати цю політику конфіденційності з часом.
+                        Важливі зміни будуть оголошені на нашому сайті з повідомленням про оновлення.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .privacy-section {
+        background-color: #f8f9fa;
+        min-height: calc(100vh - 400px);
+    }
+
+    .privacy-section h1 {
+        color: #2c3e50;
+        font-family: 'Fraunces', serif;
+        font-weight: 700;
+        margin-bottom: 2rem;
+    }
+
+    .section-title {
+        color: #34495e;
+        font-family: 'Fraunces', serif;
+        font-weight: 600;
+        font-size: 1.5rem;
+        border-left: 4px solid #ff6b6b;
+        padding-left: 1rem;
+    }
+
+    .custom-list {
+        list-style: none;
+        padding-left: 0;
+    }
+
+    .custom-list li {
+        padding-left: 1.5rem;
+        margin-bottom: 0.75rem;
+        position: relative;
+        line-height: 1.6;
+    }
+
+    .custom-list li:before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        color: #ff6b6b;
+        font-weight: bold;
+    }
+
+    .contact-box {
+        background: white;
+        border-left: 4px solid #ff6b6b;
+        padding: 1.5rem;
+        border-radius: 0.5rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .contact-box p {
+        margin-bottom: 0.5rem;
+        color: #555;
+    }
+
+    .contact-box a {
+        color: #ff6b6b;
+        text-decoration: none;
+    }
+
+    .contact-box a:hover {
+        text-decoration: underline;
+    }
+
+    .privacy-section p {
+        line-height: 1.8;
+        color: #555;
+        margin-bottom: 1rem;
+    }
+
+    .text-muted {
+        color: #999 !important;
+        font-size: 0.95rem;
+    }
+</style>

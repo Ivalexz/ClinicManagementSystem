@@ -1,5 +1,7 @@
-﻿@{
-    ViewData["Title"] = "Реєстрація";
+﻿@using ClinicManagementSystem.ViewModels.Account
+@model RegisterViewModel
+@{
+ViewData["Title"] = "Реєстрація";
 }
 
 <div class="auth-section">
@@ -18,42 +20,67 @@
 
                     @if (ViewBag.Error != null)
                     {
-                        <div class="auth-alert mb-3">
-                            <i class="bi bi-exclamation-circle-fill me-2"></i>@ViewBag.Error
-                        </div>
+                    <div class="auth-alert mb-3">
+                        <i class="bi bi-exclamation-circle-fill me-2"></i>@ViewBag.Error
+                    </div>
                     }
 
                     <form asp-controller="Account" asp-action="Register" method="post">
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <label class="form-label">Ім'я</label>
+                                <div class="input-icon-wrap">
+                                    <i class="bi bi-person input-icon"></i>
+                                    <input type="text" asp-for="FirstName" class="form-control ps-input-icon"
+                                           placeholder="Ім'я" required autocomplete="given-name"/>
+                                </div>
+                                <span asp-validation-for="FirstName" class="text-danger small d-block mt-1"></span>
+                            </div>
+
+                            <div class="col-6 mb-3">
+                                <label class="form-label">Прізвище</label>
+                                <div class="input-icon-wrap">
+                                    <i class="bi bi-person input-icon"></i>
+                                    <input type="text" asp-for="LastName" class="form-control ps-input-icon"
+                                           placeholder="Прізвище" required autocomplete="family-name"/>
+                                </div>
+                                <span asp-validation-for="LastName" class="text-danger small d-block mt-1"></span>
+                            </div>
+                        </div>
+
                         <div class="mb-3">
                             <label class="form-label">Email</label>
                             <div class="input-icon-wrap">
                                 <i class="bi bi-envelope input-icon"></i>
-                                <input type="email" name="email" class="form-control ps-input-icon"
+                                <input type="email" asp-for="Email" class="form-control ps-input-icon"
                                        placeholder="your@email.com" required autocomplete="email"/>
                             </div>
+                            <span asp-validation-for="Email" class="text-danger small d-block mt-1"></span>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label">Пароль</label>
                             <div class="input-icon-wrap">
                                 <i class="bi bi-lock input-icon"></i>
-                                <input type="password" name="password" id="password" class="form-control ps-input-icon"
+                                <input type="password" asp-for="Password" id="password" class="form-control ps-input-icon"
                                        placeholder="••••••••" required autocomplete="new-password"/>
                             </div>
                             <div class="password-hint mt-1">
                                 Мінімум 6 символів, велика літера та цифра
                             </div>
+                            <span asp-validation-for="Password" class="text-danger small d-block mt-1"></span>
                         </div>
 
                         <div class="mb-4">
                             <label class="form-label">Підтвердження пароля</label>
                             <div class="input-icon-wrap">
                                 <i class="bi bi-lock-fill input-icon"></i>
-                                <input type="password" name="confirmPassword" id="confirmPassword"
+                                <input type="password" asp-for="ConfirmPassword" id="confirmPassword"
                                        class="form-control ps-input-icon"
                                        placeholder="••••••••" required autocomplete="new-password"/>
                             </div>
                             <div id="password-match-msg" class="password-hint mt-1"></div>
+                            <span asp-validation-for="ConfirmPassword" class="text-danger small d-block mt-1"></span>
                         </div>
 
                         <button type="submit" id="submit-btn" class="btn-submit">
@@ -74,30 +101,48 @@
 
 @section Scripts {
 <script>
+    const firstName = document.querySelector('input[name="FirstName"]');
+    const lastName = document.querySelector('input[name="LastName"]');
     const pwd     = document.getElementById('password');
     const confirm = document.getElementById('confirmPassword');
     const msg     = document.getElementById('password-match-msg');
     const btn     = document.getElementById('submit-btn');
 
+    function validateForm() {
+        // Перевірка імені та прізвища
+        const isNameValid = firstName.value.trim().length > 0 && lastName.value.trim().length > 0;
+
+        // Перевірка паролів
+        const isPwdValid = pwd.value.length >= 6;
+        const isPwdMatch = pwd.value === confirm.value && confirm.value.length > 0;
+
+        // Кнопка активна тільки якщо все заповнено правильно
+        btn.disabled = !(isNameValid && isPwdValid && isPwdMatch);
+    }
+
     function checkMatch() {
         if (confirm.value.length === 0) {
             msg.textContent = '';
             msg.className = 'password-hint mt-1';
-            btn.disabled = false;
+            validateForm();
             return;
         }
         if (pwd.value === confirm.value) {
             msg.textContent = '✓ Паролі співпадають';
             msg.className = 'password-hint mt-1 text-match';
-            btn.disabled = false;
         } else {
             msg.textContent = '✗ Паролі не співпадають';
             msg.className = 'password-hint mt-1 text-nomatch';
-            btn.disabled = true;
         }
+        validateForm();
     }
 
+    firstName.addEventListener('input', validateForm);
+    lastName.addEventListener('input', validateForm);
     pwd.addEventListener('input', checkMatch);
     confirm.addEventListener('input', checkMatch);
+
+    // Перевірка при завантаженні
+    validateForm();
 </script>
 }
