@@ -1,39 +1,59 @@
 ﻿@model Animal
 
-<h2 class="mb-4">Додати тварину</h2>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold">Додати тварину</h2>
 
-<form method="post" asp-action="CreateAnimal">
+    <a href="/Admin/Animals" class="btn btn-secondary">
+        <i class="bi bi-arrow-left"></i> Назад
+    </a>
+</div>
 
-    <div class="mb-3">
-        <label class="form-label">Ім'я</label>
-        <input asp-for="Name" class="form-control" />
+<div class="card shadow-sm">
+    <div class="card-body">
+
+        <form method="post" asp-action="CreateAnimal">
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Ім'я</label>
+                <input asp-for="Name" class="form-control" placeholder="Наприклад: Барсік" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Вид</label>
+                <input asp-for="Species" class="form-control" placeholder="Кіт, Собака, Папуга..." />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Порода</label>
+                <input asp-for="Breed" class="form-control" placeholder="Британський, Лабрадор..." />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Стать</label>
+                <select asp-for="Gender" class="form-select">
+                    <option value="">Оберіть стать</option>
+                    <option value="Самець">Самець</option>
+                    <option value="Самка">Самка</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Дата народження</label>
+                <input asp-for="DateOfBirth" type="date" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold">ID власника</label>
+                <input asp-for="ClientId" class="form-control" placeholder="Введіть ID користувача" />
+            </div>
+
+            <div class="mt-4">
+                <button class="btn btn-primary">
+                    <i class="bi bi-check-circle"></i> Створити
+                </button>
+            </div>
+
+        </form>
+
     </div>
-
-    <div class="mb-3">
-        <label class="form-label">Вид</label>
-        <input asp-for="Species" class="form-control" />
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label">Порода</label>
-        <input asp-for="Breed" class="form-control" />
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label">Стать</label>
-        <input asp-for="Gender" class="form-control" />
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label">Дата народження</label>
-        <input asp-for="DateOfBirth" type="date" class="form-control" />
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label">ID власника</label>
-        <input asp-for="ClientId" class="form-control" />
-    </div>
-
-    <button class="btn btn-success">Створити</button>
-    <a href="/Admin/Animals" class="btn btn-secondary">Назад</a>
-</form>
+</div>

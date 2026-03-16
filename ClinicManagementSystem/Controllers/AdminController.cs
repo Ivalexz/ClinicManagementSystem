@@ -154,4 +154,11 @@ public class AdminController : Controller
 
         return View(card);
     }
+
+    public async Task<IActionResult> Patients()
+    {
+        var users = await _context.Users
+            .Include(u => u.Animals).ToListAsync();
+        return View(users);
+    }
 }

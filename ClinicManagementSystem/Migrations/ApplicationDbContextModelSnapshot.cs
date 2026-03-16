@@ -23,6 +23,9 @@ namespace ClinicManagementSystem.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Breed")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -54,6 +57,8 @@ namespace ClinicManagementSystem.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("ClientId");
 
@@ -417,6 +422,10 @@ namespace ClinicManagementSystem.Migrations
 
             modelBuilder.Entity("ClinicManagementSystem.Models.Animal", b =>
                 {
+                    b.HasOne("ClinicManagementSystem.Models.ApplicationUser", null)
+                        .WithMany("Animals")
+                        .HasForeignKey("ApplicationUserId");
+
                     b.HasOne("ClinicManagementSystem.Models.ApplicationUser", "Client")
                         .WithMany()
                         .HasForeignKey("ClientId")
@@ -528,6 +537,11 @@ namespace ClinicManagementSystem.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("ClinicManagementSystem.Models.ApplicationUser", b =>
+                {
+                    b.Navigation("Animals");
                 });
 
             modelBuilder.Entity("ClinicManagementSystem.Models.Appointment", b =>

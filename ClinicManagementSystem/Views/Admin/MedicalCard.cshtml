@@ -1,43 +1,78 @@
 ﻿@model MedicalCard
 
-<h2 class="mb-4">Медична картка</h2>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold">Медична картка</h2>
 
-<p><strong>Дата створення:</strong> @Model.CreateDate.ToShortDateString()</p>
+    <a href="/Admin/Animals" class="btn btn-secondary">
+        <i class="bi bi-arrow-left"></i> Назад
+    </a>
+</div>
 
-<h4 class="mt-4">Прийоми</h4>
+<div class="card shadow-sm mb-4">
+    <div class="card-body">
+        <p class="mb-0">
+            <strong>Дата створення:</strong>
+            @Model.CreateDate.ToShortDateString()
+        </p>
+    </div>
+</div>
+
+<h4 class="fw-bold mb-3">Прийоми</h4>
 
 @if (Model.Appointments.Any())
 {
-    <table class="table table-bordered">
-        <thead class="table-dark">
-        <tr>
-            <th>Назва</th>
-            <th>Дата</th>
-            <th>Лікар</th>
-            <th>Діагноз</th>
-            <th>Призначення</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (var a in Model.Appointments)
-        {
-            <tr>
-                <td>@a.Name</td>
-                <td>@a.DateTime</td>
-                <td>@a.Doctor?.User?.FirstName @a.Doctor?.User?.LastName</td>
-                <td>@a.Diagnosis</td>
-                <td>
-                    @foreach (var p in a.Prescriptions)
+    <div class="card shadow-sm">
+        <div class="card-body p-0">
+
+            <table class="table table-hover table-striped mb-0">
+                <thead class="table-primary">
+                    <tr>
+                        <th>Назва</th>
+                        <th>Дата</th>
+                        <th>Лікар</th>
+                        <th>Діагноз</th>
+                        <th>Призначення</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var a in Model.Appointments)
                     {
-                        <div>@p.Name — @p.Duration — @p.Frequency</div>
+                        <tr>
+                            <td>@a.Name</td>
+                            <td>@a.DateTime.ToString("dd.MM.yyyy HH:mm")</td>
+                            <td>@a.Doctor?.User?.FirstName @a.Doctor?.User?.LastName</td>
+                            <td>@a.Diagnosis</td>
+
+                            <td>
+                                @if (a.Prescriptions.Any())
+                                {
+                                    @foreach (var p in a.Prescriptions)
+                                    {
+                                        <div>
+                                            <i class="bi bi-capsule"></i>
+                                            <strong>@p.Name</strong> —
+                                            @p.Duration —
+                                            @p.Frequency
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <span class="text-muted">Немає призначень</span>
+                                }
+                            </td>
+                        </tr>
                     }
-                </td>
-            </tr>
-        }
-        </tbody>
-    </table>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
 }
 else
 {
-    <p>Немає прийомів</p>
+    <div class="alert alert-info mt-3">
+        <i class="bi bi-info-circle"></i> Немає прийомів
+    </div>
 }

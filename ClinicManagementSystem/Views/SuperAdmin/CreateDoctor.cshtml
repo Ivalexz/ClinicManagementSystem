@@ -1,77 +1,98 @@
 ﻿@model ClinicManagementSystem.Models.ViewModels.CreateDoctorViewModel
 
-<h2 class="mb-4">Створення Доктора</h2>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold">Створення Доктора</h2>
 
-<form method="post" asp-action="CreateDoctor" class="shadow p-4 rounded bg-white">
+    <a href="/SuperAdmin/Doctors" class="btn btn-secondary">
+        <i class="bi bi-arrow-left"></i> Назад
+    </a>
+</div>
 
-    <div asp-validation-summary="All" class="text-danger mb-3"></div>
+<div class="card shadow-sm">
+    <div class="card-body">
 
-    <h4 class="mb-3">Дані користувача</h4>
+        <form method="post" asp-action="CreateDoctor">
 
-    <div class="mb-3">
-        <label class="form-label">Ім'я</label>
-        <input asp-for="User.FirstName" class="form-control" />
-        <span asp-validation-for="User.FirstName" class="text-danger"></span>
+            <div asp-validation-summary="All" class="text-danger mb-3"></div>
+            
+            <h4 class="fw-bold mb-3">
+                <i class="bi bi-person-fill"></i> Дані користувача
+            </h4>
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Ім'я</label>
+                <input asp-for="User.FirstName" class="form-control" placeholder="Введіть ім'я" />
+                <span asp-validation-for="User.FirstName" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Прізвище</label>
+                <input asp-for="User.LastName" class="form-control" placeholder="Введіть прізвище" />
+                <span asp-validation-for="User.LastName" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Email</label>
+                <input asp-for="User.Email" class="form-control" placeholder="example@gmail.com" />
+                <span asp-validation-for="User.Email" class="text-danger"></span>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label fw-semibold">Пароль</label>
+                <input asp-for="Password" type="password" class="form-control" placeholder="Введіть пароль" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <hr class="my-4" />
+
+
+            <h4 class="fw-bold mb-3">
+                <i class="bi bi-hospital"></i> Профіль доктора
+            </h4>
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Спеціалізація</label>
+                <input asp-for="Doctor.Specialization" class="form-control" placeholder="Наприклад: Хірург" />
+                <span asp-validation-for="Doctor.Specialization" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Документ освіти</label>
+                <input asp-for="Doctor.EducationDocument" class="form-control" placeholder="Назва документа" />
+                <span asp-validation-for="Doctor.EducationDocument" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Стаж роботи (роки)</label>
+                <input asp-for="Doctor.ExperienceYears" class="form-control" placeholder="Наприклад: 5" />
+                <span asp-validation-for="Doctor.ExperienceYears" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Номер кабінету</label>
+                <input asp-for="Doctor.OfficeNumber" class="form-control" placeholder="Наприклад: 203" />
+                <span asp-validation-for="Doctor.OfficeNumber" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Телефон</label>
+                <input asp-for="Doctor.Phone" class="form-control" placeholder="+380..." />
+                <span asp-validation-for="Doctor.Phone" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Опис / Біографія</label>
+                <textarea asp-for="Doctor.Description" class="form-control" rows="4" placeholder="Коротка інформація про лікаря"></textarea>
+                <span asp-validation-for="Doctor.Description" class="text-danger"></span>
+            </div>
+
+            <div class="mt-4">
+                <button class="btn btn-success">
+                    <i class="bi bi-person-check-fill"></i> Створити
+                </button>
+            </div>
+
+        </form>
+
     </div>
-
-    <div class="mb-3">
-        <label class="form-label">Прізвище</label>
-        <input asp-for="User.LastName" class="form-control" />
-        <span asp-validation-for="User.LastName" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label">Email</label>
-        <input asp-for="User.Email" class="form-control" />
-        <span asp-validation-for="User.Email" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label">Пароль</label>
-        <input asp-for="Password" type="password" class="form-control" />
-        <span asp-validation-for="Password" class="text-danger"></span>
-    </div>
-
-    <hr />
-
-    <h4 class="mb-3">Профіль доктора</h4>
-
-    <div class="mb-3">
-        <label class="form-label">Спеціалізація</label>
-        <input asp-for="Doctor.Specialization" class="form-control" />
-        <span asp-validation-for="Doctor.Specialization" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label">Документ освіти</label>
-        <input asp-for="Doctor.EducationDocument" class="form-control" />
-        <span asp-validation-for="Doctor.EducationDocument" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label">Стаж роботи (роки)</label>
-        <input asp-for="Doctor.ExperienceYears" class="form-control" />
-        <span asp-validation-for="Doctor.ExperienceYears" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label">Номер кабінету</label>
-        <input asp-for="Doctor.OfficeNumber" class="form-control" />
-        <span asp-validation-for="Doctor.OfficeNumber" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label">Телефон</label>
-        <input asp-for="Doctor.Phone" class="form-control" />
-        <span asp-validation-for="Doctor.Phone" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label">Опис / Біографія</label>
-        <textarea asp-for="Doctor.Description" class="form-control" rows="4"></textarea>
-        <span asp-validation-for="Doctor.Description" class="text-danger"></span>
-    </div>
-
-    <button class="btn btn-success">Створити</button>
-    <a href="/SuperAdmin/Doctors" class="btn btn-secondary">Назад</a>
-</form>
+</div>

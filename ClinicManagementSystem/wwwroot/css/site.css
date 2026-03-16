@@ -1,31 +1,67 @@
-html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
-}
-
 body {
-  margin-bottom: 60px;
+  background: #f5f9fc;
+  font-family: 'Segoe UI', sans-serif;
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+
+.card {
+  border: none;
+  border-radius: 12px;
+  transition: 0.25s ease;
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+
+.btn-primary {
+  background: #0d6efd;
+  border: none;
+  border-radius: 8px;
+}
+
+.btn-outline-primary {
+  border-radius: 8px;
+}
+
+
+.hero {
+  background: linear-gradient(135deg, #0d6efd, #0bbcd6);
+  color: white;
+  padding: 80px 20px;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+/* Login page */
+.login-wrapper {
+  min-height: 75vh;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 420px;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 35px;
+  animation: fadeIn 0.4s ease;
+}
+
+/* Анімація */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.form-control {
+  border-radius: 10px;
+  padding: 12px 14px;
+}
+
+.btn-primary {
+  border-radius: 10px;
+  padding: 12px;
+  font-size: 1.1rem;
 }
