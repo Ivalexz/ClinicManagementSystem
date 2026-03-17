@@ -1,31 +1,47 @@
 ﻿@model ApplicationUser
 
-<h2 class="mb-4">Створення Адміна</h2>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold">Створення Адміна</h2>
 
-<form method="post" asp-action="CreateAdmin" class="shadow p-4 rounded bg-white">
-    
-    <div asp-validation-summary="All" class="text-danger mb-3"></div>
+    <a href="/SuperAdmin/Admins" class="btn btn-secondary">
+        <i class="bi bi-arrow-left"></i> Назад
+    </a>
+</div>
 
-    <div class="mb-3">
-        <label class="form-label">Ім'я</label>
-        <input asp-for="FirstName" class="form-control" />
+<div class="card shadow-sm">
+    <div class="card-body">
+
+        <form method="post" asp-action="CreateAdmin">
+
+            <div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Ім'я</label>
+                <input asp-for="FirstName" class="form-control" placeholder="Введіть ім'я" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Прізвище</label>
+                <input asp-for="LastName" class="form-control" placeholder="Введіть прізвище" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Email</label>
+                <input asp-for="Email" class="form-control" placeholder="example@gmail.com" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Пароль</label>
+                <input type="password" name="password" class="form-control" placeholder="Введіть пароль" />
+            </div>
+
+            <div class="mt-4">
+                <button class="btn btn-primary">
+                    <i class="bi bi-person-plus-fill"></i> Створити
+                </button>
+            </div>
+
+        </form>
+
     </div>
-
-    <div class="mb-3">
-        <label class="form-label">Прізвище</label>
-        <input asp-for="LastName" class="form-control" />
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label">Email</label>
-        <input asp-for="Email" class="form-control" />
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label">Пароль</label>
-        <input type="password" name="password" class="form-control" />
-    </div>
-
-    <button class="btn btn-primary">Створити</button>
-    <a href="/SuperAdmin/Admins" class="btn btn-secondary">Назад</a>
-</form>
+</div>

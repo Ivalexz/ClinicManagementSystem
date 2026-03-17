@@ -13,5 +13,7 @@ namespace ClinicManagementSystem.Models
         [StringLength(50)]
         public string LastName { get; set; }
         public string FullName => FirstName + " " + LastName;
+        
+        public ICollection<Animal> Animals { get; set; } = new List<Animal>();
     }
 }

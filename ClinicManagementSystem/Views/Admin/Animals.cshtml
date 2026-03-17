@@ -1,33 +1,50 @@
 ﻿@model IEnumerable<Animal>
 
-<h2 class="mb-4">Список тварин</h2>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold">Список тварин</h2>
 
-<a href="/Admin/CreateAnimal" class="btn btn-success mb-3">➕ Додати тварину</a>
+    <a href="/Admin/CreateAnimal" class="btn btn-primary">
+        <i class="bi bi-plus-circle"></i> Додати тварину
+    </a>
+</div>
 
-<table class="table table-bordered table-striped">
-    <thead class="table-dark">
-    <tr>
-        <th>Ім'я</th>
-        <th>Вид</th>
-        <th>Порода</th>
-        <th>Власник</th>
-        <th>Дії</th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var a in Model)
-    {
-        <tr>
-            <td>@a.Name</td>
-            <td>@a.Species</td>
-            <td>@a.Breed</td>
-            <td>@a.Client?.FirstName @a.Client?.LastName</td>
-            <td>
-                <a href="/Admin/MedicalCard/@a.MedicalCardId" class="btn btn-info btn-sm">📋 Медкарта</a>
-                <a href="/Admin/DeleteAnimal/@a.Id" class="btn btn-danger btn-sm"
-                   onclick="return confirm('Видалити тварину?')">🗑 Видалити</a>
-            </td>
-        </tr>
-    }
-    </tbody>
-</table>
+<div class="card shadow-sm">
+    <div class="card-body p-0">
+        <table class="table table-hover table-striped mb-0">
+            <thead class="table-primary">
+            <tr>
+                <th>Ім'я</th>
+                <th>Вид</th>
+                <th>Порода</th>
+                <th>Власник</th>
+                <th class="text-center">Дії</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            @foreach (var a in Model)
+            {
+                <tr>
+                    <td>@a.Name</td>
+                    <td>@a.Species</td>
+                    <td>@a.Breed</td>
+                    <td>@a.Client?.FirstName @a.Client?.LastName</td>
+
+                    <td class="text-center">
+                        <a href="/Admin/MedicalCard/@a.MedicalCardId" 
+                           class="btn btn-outline-info btn-sm me-1">
+                            <i class="bi bi-journal-medical"></i> Медкарта
+                        </a>
+
+                        <a href="/Admin/DeleteAnimal/@a.Id" 
+                           class="btn btn-outline-danger btn-sm"
+                           onclick="return confirm('Видалити тварину?')">
+                            <i class="bi bi-trash"></i> Видалити
+                        </a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>

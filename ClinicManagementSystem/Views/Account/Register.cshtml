@@ -1,148 +1,37 @@
-﻿@using ClinicManagementSystem.ViewModels.Account
-@model RegisterViewModel
-@{
-ViewData["Title"] = "Реєстрація";
+﻿@{
+    ViewData["Title"] = "Register";
 }
 
-<div class="auth-section">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-5 col-lg-4">
+<div class="login-wrapper d-flex justify-content-center align-items-center">
+    <div class="login-card shadow-lg p-4">
 
-                <div class="auth-card">
-                    <div class="auth-logo mb-4">
-                        <div class="logo-icon mx-auto mb-3">
-                            <i class="bi bi-heart-pulse-fill"></i>
-                        </div>
-                        <h1 class="auth-title">Створити акаунт</h1>
-                        <p class="auth-sub">Зареєструйтесь, щоб керувати здоров'ям вашого улюбленця</p>
-                    </div>
+        <h2 class="text-center mb-4 fw-bold text-primary">Реєстрація</h2>
 
-                    @if (ViewBag.Error != null)
-                    {
-                    <div class="auth-alert mb-3">
-                        <i class="bi bi-exclamation-circle-fill me-2"></i>@ViewBag.Error
-                    </div>
-                    }
+        @if (ViewBag.Error != null)
+        {
+            <div class="alert alert-danger text-center">@ViewBag.Error</div>
+        }
 
-                    <form asp-controller="Account" asp-action="Register" method="post">
-                        <div class="row">
-                            <div class="col-6 mb-3">
-                                <label class="form-label">Ім'я</label>
-                                <div class="input-icon-wrap">
-                                    <i class="bi bi-person input-icon"></i>
-                                    <input type="text" asp-for="FirstName" class="form-control ps-input-icon"
-                                           placeholder="Ім'я" required autocomplete="given-name"/>
-                                </div>
-                                <span asp-validation-for="FirstName" class="text-danger small d-block mt-1"></span>
-                            </div>
+        <form asp-action="Register" method="post" class="mt-3">
 
-                            <div class="col-6 mb-3">
-                                <label class="form-label">Прізвище</label>
-                                <div class="input-icon-wrap">
-                                    <i class="bi bi-person input-icon"></i>
-                                    <input type="text" asp-for="LastName" class="form-control ps-input-icon"
-                                           placeholder="Прізвище" required autocomplete="family-name"/>
-                                </div>
-                                <span asp-validation-for="LastName" class="text-danger small d-block mt-1"></span>
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Email</label>
-                            <div class="input-icon-wrap">
-                                <i class="bi bi-envelope input-icon"></i>
-                                <input type="email" asp-for="Email" class="form-control ps-input-icon"
-                                       placeholder="your@email.com" required autocomplete="email"/>
-                            </div>
-                            <span asp-validation-for="Email" class="text-danger small d-block mt-1"></span>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Пароль</label>
-                            <div class="input-icon-wrap">
-                                <i class="bi bi-lock input-icon"></i>
-                                <input type="password" asp-for="Password" id="password" class="form-control ps-input-icon"
-                                       placeholder="••••••••" required autocomplete="new-password"/>
-                            </div>
-                            <div class="password-hint mt-1">
-                                Мінімум 6 символів, велика літера та цифра
-                            </div>
-                            <span asp-validation-for="Password" class="text-danger small d-block mt-1"></span>
-                        </div>
-
-                        <div class="mb-4">
-                            <label class="form-label">Підтвердження пароля</label>
-                            <div class="input-icon-wrap">
-                                <i class="bi bi-lock-fill input-icon"></i>
-                                <input type="password" asp-for="ConfirmPassword" id="confirmPassword"
-                                       class="form-control ps-input-icon"
-                                       placeholder="••••••••" required autocomplete="new-password"/>
-                            </div>
-                            <div id="password-match-msg" class="password-hint mt-1"></div>
-                            <span asp-validation-for="ConfirmPassword" class="text-danger small d-block mt-1"></span>
-                        </div>
-
-                        <button type="submit" id="submit-btn" class="btn-submit">
-                            Зареєструватися <i class="bi bi-arrow-right ms-2"></i>
-                        </button>
-                    </form>
-
-                    <p class="auth-footer-text mt-4">
-                        Вже маєте акаунт?
-                        <a asp-controller="Account" asp-action="Login" class="auth-link">Увійти</a>
-                    </p>
-                </div>
-
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Email</label>
+                <input type="email" name="email" class="form-control form-control-lg" required />
             </div>
-        </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Пароль</label>
+                <input type="password" name="password" class="form-control form-control-lg" required />
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 btn-lg mt-3">
+                Зареєструватися
+            </button>
+        </form>
+
+        <p class="text-center mt-3">
+            Вже маєте акаунт?
+            <a asp-action="Login" class="text-primary fw-semibold">Увійти</a>
+        </p>
     </div>
 </div>
-
-@section Scripts {
-<script>
-    const firstName = document.querySelector('input[name="FirstName"]');
-    const lastName = document.querySelector('input[name="LastName"]');
-    const pwd     = document.getElementById('password');
-    const confirm = document.getElementById('confirmPassword');
-    const msg     = document.getElementById('password-match-msg');
-    const btn     = document.getElementById('submit-btn');
-
-    function validateForm() {
-        // Перевірка імені та прізвища
-        const isNameValid = firstName.value.trim().length > 0 && lastName.value.trim().length > 0;
-
-        // Перевірка паролів
-        const isPwdValid = pwd.value.length >= 6;
-        const isPwdMatch = pwd.value === confirm.value && confirm.value.length > 0;
-
-        // Кнопка активна тільки якщо все заповнено правильно
-        btn.disabled = !(isNameValid && isPwdValid && isPwdMatch);
-    }
-
-    function checkMatch() {
-        if (confirm.value.length === 0) {
-            msg.textContent = '';
-            msg.className = 'password-hint mt-1';
-            validateForm();
-            return;
-        }
-        if (pwd.value === confirm.value) {
-            msg.textContent = '✓ Паролі співпадають';
-            msg.className = 'password-hint mt-1 text-match';
-        } else {
-            msg.textContent = '✗ Паролі не співпадають';
-            msg.className = 'password-hint mt-1 text-nomatch';
-        }
-        validateForm();
-    }
-
-    firstName.addEventListener('input', validateForm);
-    lastName.addEventListener('input', validateForm);
-    pwd.addEventListener('input', checkMatch);
-    confirm.addEventListener('input', checkMatch);
-
-    // Перевірка при завантаженні
-    validateForm();
-</script>
-}
