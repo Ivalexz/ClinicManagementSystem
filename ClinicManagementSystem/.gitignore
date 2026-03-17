@@ -1,11 +1,6 @@
-﻿/bin/
-/obj/
-*.nuget.dgspec.json
-*.nuget.g.props
-*.nuget.g.targets
-project.assets.json
-*.cache
-*.editorconfig
-*.g.cs
-*.g.props
-*.g.targets
+﻿.vs/
+bin/
+obj/
+*.user
+*.suo
+ClinicManagementSystem/clinic.db-wal
