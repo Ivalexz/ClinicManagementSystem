@@ -2,39 +2,471 @@
     ViewData["Title"] = "Головна";
 }
 
-<div class="hero text-center mb-5">
-    <h1 class="display-4 fw-bold">Clinic Management System</h1>
-    <p class="lead">Сучасна система керування клінікою для лікарів, пацієнтів та адміністраторів.</p>
-    <a href="/Appointments" class="btn btn-light btn-lg mt-3 px-4">Записатися на прийом</a>
-</div>
+@if (!User.Identity!.IsAuthenticated)
+{
+    <!-- ========== ПУБЛІЧНИЙ LANDING ========== -->
 
-<h2 class="fw-bold mb-4 text-center">Наші сервіси</h2>
+    <!-- HERO -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6">
+                    <span class="hero-label">Дбаємо про ваших улюбленців</span>
+                    <h1 class="hero-title">Здоров'я вашого <em>вихованця</em> — наш пріоритет</h1>
+                    <p class="hero-lead">Сучасна ветеринарна клініка з досвідченими лікарями, передовим обладнанням та теплою атмосферою для кожного пацієнта.</p>
+                    <div class="d-flex align-items-center gap-4 flex-wrap">
+                        <a asp-controller="Account" asp-action="Login" class="btn-primary-pc">Увійти до системи →</a>
+                        <a href="#why-section" class="btn-outline-pc">Дізнатись більше ↓</a>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="row g-0">
+                            <div class="col-4">
+                                <span class="stat-num">12+</span>
+                                <span class="stat-label">Років досвіду</span>
+                            </div>
+                            <div class="col-4">
+                                <span class="stat-num">8 000+</span>
+                                <span class="stat-label">Щасливих пацієнтів</span>
+                            </div>
+                            <div class="col-4">
+                                <span class="stat-num">98%</span>
+                                <span class="stat-label">Задоволених клієнтів</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5 offset-lg-1">
+                    <div class="hero-card">
+                        <span class="hero-card-emoji"><i class="bi bi-clipboard2-pulse"></i></span>
+                        <div class="hero-card-title">Комплексний огляд</div>
+                        <p class="hero-card-desc">Повний медичний огляд вашого вихованця з детальним звітом про стан здоров'я та рекомендаціями лікаря.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<div class="row g-4">
-    <div class="col-md-4">
-        <div class="card p-4 text-center shadow-sm">
-            <i class="bi bi-person-lines-fill fs-1 text-primary"></i>
-            <h4 class="mt-3">Пацієнти</h4>
-            <p>Керування інформацією про пацієнтів.</p>
-            <a href="/Patients" class="btn btn-outline-primary">Перейти</a>
+    <!-- ПОСЛУГИ -->
+    <section class="services-section">
+        <div class="container">
+            <span class="section-tag">Що ми пропонуємо</span>
+            <h2 class="section-title">Повний спектр ветпослуг</h2>
+            <p class="section-subtitle">Від профілактики до складних операцій — ми забезпечуємо найкращу медичну допомогу.</p>
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <div class="service-card featured">
+                        <span class="service-icon"><i class="bi bi-activity"></i></span>
+                        <div class="service-name">Діагностика</div>
+                        <p class="service-desc">УЗД, рентген, лабораторні аналізи та комплексна діагностика</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="service-card">
+                        <span class="service-icon"><i class="bi bi-capsule"></i></span>
+                        <div class="service-name">Вакцинація</div>
+                        <p class="service-desc">Планова вакцинація з веденням паспорту тварини</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="service-card">
+                        <span class="service-icon"><i class="bi bi-scissors"></i></span>
+                        <div class="service-name">Хірургія</div>
+                        <p class="service-desc">Планові та екстрені операції з анестезіологом</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="service-card">
+                        <span class="service-icon"><i class="bi bi-heart-pulse"></i></span>
+                        <div class="service-name">Терапія</div>
+                        <p class="service-desc">Кардіологія, дерматологія, неврологія</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="service-card">
+                        <span class="service-icon"><i class="bi bi-stars"></i></span>
+                        <div class="service-name">Грумінг</div>
+                        <p class="service-desc">Стрижка та догляд за шерстю від профі</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="service-card">
+                        <span class="service-icon"><i class="bi bi-hospital"></i></span>
+                        <div class="service-name">Стаціонар</div>
+                        <p class="service-desc">Цілодобовий нагляд та лікування</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ЧОМУ МИ -->
+    <section class="appointment-section" id="why-section">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-5">
+                    <span class="section-tag">Наші переваги</span>
+                    <h2 class="section-title">Чому обирають PawCare?</h2>
+                    <ul class="why-list">
+                        <li class="why-item">
+                            <div class="why-dot"><i class="bi bi-patch-check-fill"></i></div>
+                            <div class="why-text">
+                                <strong>Сертифіковані лікарі</strong>
+                                <span>Міжнародні сертифікати та постійне підвищення кваліфікації</span>
+                            </div>
+                        </li>
+                        <li class="why-item">
+                            <div class="why-dot"><i class="bi bi-lightning-charge-fill"></i></div>
+                            <div class="why-text">
+                                <strong>Швидка допомога</strong>
+                                <span>Прийом у день звернення, екстрена допомога 24/7</span>
+                            </div>
+                        </li>
+                        <li class="why-item">
+                            <div class="why-dot"><i class="bi bi-phone-fill"></i></div>
+                            <div class="why-text">
+                                <strong>Електронні медкарти</strong>
+                                <span>Уся історія здоров'я вашого улюбленця онлайн</span>
+                            </div>
+                        </li>
+                        <li class="why-item">
+                            <div class="why-dot"><i class="bi bi-emoji-smile-fill"></i></div>
+                            <div class="why-text">
+                                <strong>Турбота та тепло</strong>
+                                <span>Індивідуальна увага до кожного вихованця</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-lg-6 offset-lg-1">
+                    <div class="appt-form-card">
+                        <div class="appt-form-title">Готові розпочати?</div>
+                        <div class="appt-form-sub">Увійдіть у систему, щоб записатися на прийом та переглядати медичні картки своїх тварин</div>
+                        <div class="d-grid gap-3 mt-4">
+                            <a asp-controller="Account" asp-action="Login" class="btn-primary-pc text-center">
+                                <i class="bi bi-box-arrow-in-right me-2"></i>Увійти до системи
+                            </a>
+                            <a href="#" class="btn-outline-pc justify-content-center" onclick="alert('Реєстрація проводиться адміністратором клініки'); return false;">
+                                Потрібна допомога?
+                            </a>
+                        </div>
+                        <hr class="my-4" style="border-color: rgba(138,184,122,0.3)"/>
+                        <ul class="list-unstyled mb-0">
+                            <li class="d-flex align-items-center gap-2 mb-2 small text-muted-pc">
+                                <i class="bi bi-check-circle-fill text-green-mid"></i> Перегляд медичної карти тварини
+                            </li>
+                            <li class="d-flex align-items-center gap-2 mb-2 small text-muted-pc">
+                                <i class="bi bi-check-circle-fill text-green-mid"></i> Онлайн запис на прийом
+                            </li>
+                            <li class="d-flex align-items-center gap-2 small text-muted-pc">
+                                <i class="bi bi-check-circle-fill text-green-mid"></i> Історія візитів та рецептів
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+else if (User.IsInRole("SuperAdmin"))
+{
+    <!-- ========== DASHBOARD: СУПЕРАДМІН ========== -->
+    <div class="dashboard-section">
+        <div class="container">
+            <div class="dashboard-header mb-4">
+                <div>
+                    <h1 class="dashboard-title">Панель суперадміна</h1>
+                    <p class="dashboard-sub">Керування всією системою клініки</p>
+                </div>
+            </div>
+
+            <div class="row g-3 mb-4">
+                <div class="col-sm-6 col-lg-3">
+                    <div class="stat-card stat-card--green">
+                        <div class="stat-card__icon"><i class="bi bi-people-fill"></i></div>
+                        <div class="stat-card__label">Адміністраторів</div>
+                        <div class="stat-card__num">@(ViewBag.AdminCount ?? "—")</div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                    <div class="stat-card stat-card--teal">
+                        <div class="stat-card__icon"><i class="bi bi-person-badge-fill"></i></div>
+                        <div class="stat-card__label">Лікарів</div>
+                        <div class="stat-card__num">@(ViewBag.DoctorCount ?? "—")</div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                    <div class="stat-card stat-card--orange">
+                        <div class="stat-card__icon"><i class="bi bi-person-heart"></i></div>
+                        <div class="stat-card__label">Клієнтів</div>
+                        <div class="stat-card__num">@(ViewBag.ClientCount ?? "—")</div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                    <div class="stat-card stat-card--cream">
+                        <div class="stat-card__icon"><i class="bi bi-journal-medical"></i></div>
+                        <div class="stat-card__label">Прийомів</div>
+                        <div class="stat-card__num">@(ViewBag.AppointmentCount ?? "—")</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-3">
+                <div class="col-md-6 col-lg-3">
+                    <a asp-controller="SuperAdmin" asp-action="Admins" class="dash-link-card">
+                        <i class="bi bi-shield-fill-check"></i>
+                        <span>Адміністратори</span>
+                        <i class="bi bi-arrow-right ms-auto"></i>
+                    </a>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <a asp-controller="SuperAdmin" asp-action="Doctors" class="dash-link-card">
+                        <i class="bi bi-person-badge-fill"></i>
+                        <span>Лікарі</span>
+                        <i class="bi bi-arrow-right ms-auto"></i>
+                    </a>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <a asp-controller="SuperAdmin" asp-action="CreateAdmin" class="dash-link-card">
+                        <i class="bi bi-person-plus-fill"></i>
+                        <span>Додати адміна</span>
+                        <i class="bi bi-arrow-right ms-auto"></i>
+                    </a>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <a asp-controller="SuperAdmin" asp-action="CreateDoctor" class="dash-link-card">
+                        <i class="bi bi-plus-circle-fill"></i>
+                        <span>Додати лікаря</span>
+                        <i class="bi bi-arrow-right ms-auto"></i>
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
+}
+else if (User.IsInRole("Admin"))
+{
+    <!-- ========== DASHBOARD: АДМІН ========== -->
+    <div class="dashboard-section">
+        <div class="container">
+            <div class="dashboard-header mb-4">
+                <div>
+                    <h1 class="dashboard-title">Панель адміністратора</h1>
+                    <p class="dashboard-sub">Управління записами, клієнтами та тваринами</p>
+                </div>
+            </div>
 
-    <div class="col-md-4">
-        <div class="card p-4 text-center shadow-sm">
-            <i class="bi bi-heart-pulse fs-1 text-primary"></i>
-            <h4 class="mt-3">Лікарі</h4>
-            <p>Перегляд лікарів та їх спеціалізацій.</p>
-            <a href="/Doctors" class="btn btn-outline-primary">Перейти</a>
+            <div class="row g-3 mb-4">
+                <div class="col-sm-6 col-lg-3">
+                    <div class="stat-card stat-card--green">
+                        <div class="stat-card__icon"><i class="bi bi-calendar-check-fill"></i></div>
+                        <div class="stat-card__label">Записів сьогодні</div>
+                        <div class="stat-card__num">@(ViewBag.TodayAppointments ?? "—")</div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                    <div class="stat-card stat-card--teal">
+                        <div class="stat-card__icon"><i class="bi bi-person-heart"></i></div>
+                        <div class="stat-card__label">Клієнтів</div>
+                        <div class="stat-card__num">@(ViewBag.ClientCount ?? "—")</div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                    <div class="stat-card stat-card--orange">
+                        <div class="stat-card__icon"><i class="bi bi-bug-fill"></i></div>
+                        <div class="stat-card__label">Тварин</div>
+                        <div class="stat-card__num">@(ViewBag.AnimalCount ?? "—")</div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                    <div class="stat-card stat-card--cream">
+                        <div class="stat-card__icon"><i class="bi bi-journal-medical"></i></div>
+                        <div class="stat-card__label">Всього записів</div>
+                        <div class="stat-card__num">@(ViewBag.AppointmentCount ?? "—")</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-3">
+                <div class="col-md-6 col-lg-3">
+                    <a asp-controller="Admin" asp-action="Users" class="dash-link-card">
+                        <i class="bi bi-people-fill"></i>
+                        <span>Клієнти</span>
+                        <i class="bi bi-arrow-right ms-auto"></i>
+                    </a>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <a asp-controller="Admin" asp-action="Animals" class="dash-link-card">
+                        <i class="bi bi-bug-fill"></i>
+                        <span>Тварини</span>
+                        <i class="bi bi-arrow-right ms-auto"></i>
+                    </a>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <a asp-controller="Admin" asp-action="CreateUser" class="dash-link-card">
+                        <i class="bi bi-person-plus-fill"></i>
+                        <span>Додати клієнта</span>
+                        <i class="bi bi-arrow-right ms-auto"></i>
+                    </a>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <a asp-controller="Admin" asp-action="CreateAnimal" class="dash-link-card">
+                        <i class="bi bi-plus-circle-fill"></i>
+                        <span>Додати тварину</span>
+                        <i class="bi bi-arrow-right ms-auto"></i>
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
+}
+else if (User.IsInRole("Doctor"))
+{
+    <!-- ========== DASHBOARD: ЛІКАР ========== -->
+    <div class="dashboard-section">
+        <div class="container">
+            <div class="dashboard-header mb-4">
+                <div>
+                    <h1 class="dashboard-title">Кабінет лікаря</h1>
+                    <p class="dashboard-sub">Ваші прийоми та пацієнти</p>
+                </div>
+            </div>
 
-    <div class="col-md-4">
-        <div class="card p-4 text-center shadow-sm">
-            <i class="bi bi-calendar-check fs-1 text-primary"></i>
-            <h4 class="mt-3">Записи</h4>
-            <p>Керування записами на прийом.</p>
-            <a href="/Appointments" class="btn btn-outline-primary">Перейти</a>
+            <div class="row g-3 mb-4">
+                <div class="col-sm-6 col-lg-4">
+                    <div class="stat-card stat-card--green">
+                        <div class="stat-card__icon"><i class="bi bi-calendar-check-fill"></i></div>
+                        <div class="stat-card__label">Прийомів сьогодні</div>
+                        <div class="stat-card__num">@(ViewBag.TodayAppointments ?? "—")</div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-4">
+                    <div class="stat-card stat-card--teal">
+                        <div class="stat-card__icon"><i class="bi bi-calendar-week-fill"></i></div>
+                        <div class="stat-card__label">Прийомів цього тижня</div>
+                        <div class="stat-card__num">@(ViewBag.WeekAppointments ?? "—")</div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-4">
+                    <div class="stat-card stat-card--orange">
+                        <div class="stat-card__icon"><i class="bi bi-journal-medical"></i></div>
+                        <div class="stat-card__label">Всього прийомів</div>
+                        <div class="stat-card__num">@(ViewBag.TotalAppointments ?? "—")</div>
+                    </div>
+                </div>
+            </div>
+
+            @if (ViewBag.TodayList != null)
+            {
+                <div class="dash-table-card">
+                    <div class="dash-table-header">
+                        <span><i class="bi bi-clock me-2"></i>Сьогоднішні прийоми</span>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table dash-table mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Час</th>
+                                    <th>Тварина</th>
+                                    <th>Скарга</th>
+                                    <th>Статус</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var appt in ViewBag.TodayList)
+                                {
+                                    <tr>
+                                        <td>@appt.AppointmentDate.ToString("HH:mm")</td>
+                                        <td>@appt.Animal?.Name</td>
+                                        <td>@appt.Complaint</td>
+                                        <td>
+                                            <span class="badge-status @(appt.IsCompleted ? "badge-done" : "badge-pending")">
+                                                @(appt.IsCompleted ? "Завершено" : "Очікує")
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <a asp-controller="Appointment" asp-action="Details" asp-route-id="@appt.Id" class="dash-link-sm">
+                                                <i class="bi bi-arrow-right"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="dash-empty">
+                    <i class="bi bi-calendar-x"></i>
+                    <p>Сьогодні прийомів немає</p>
+                </div>
+            }
         </div>
     </div>
-</div>
+}
+else
+{
+    <!-- ========== DASHBOARD: КЛІЄНТ ========== -->
+    <div class="dashboard-section">
+        <div class="container">
+            <div class="dashboard-header mb-4">
+                <div>
+                    <h1 class="dashboard-title">Мій кабінет</h1>
+                    <p class="dashboard-sub">Ваші тварини та медичні картки</p>
+                </div>
+            </div>
+
+            @if (ViewBag.Animals != null && ((IEnumerable<dynamic>)ViewBag.Animals).Any())
+            {
+                <div class="row g-3 mb-4">
+                    @foreach (var animal in ViewBag.Animals)
+                    {
+                        <div class="col-sm-6 col-lg-4">
+                            <div class="animal-card">
+                                <div class="animal-card__icon">
+                                    <i class="bi bi-@(animal.Species?.ToLower() == "кіт" || animal.Species?.ToLower() == "cat" ? "emoji-laughing" : "emoji-smile")"></i>
+                                </div>
+                                <div class="animal-card__info">
+                                    <div class="animal-card__name">@animal.Name</div>
+                                    <div class="animal-card__meta">@animal.Species · @animal.Breed</div>
+                                </div>
+                                <a asp-controller="Admin" asp-action="MedicalCard" asp-route-id="@animal.Id" class="dash-link-sm">
+                                    <i class="bi bi-journal-medical"></i>
+                                </a>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-md-6 col-lg-4">
+                        <a asp-controller="Admin" asp-action="Animals" class="dash-link-card">
+                            <i class="bi bi-bug-fill"></i>
+                            <span>Мої тварини</span>
+                            <i class="bi bi-arrow-right ms-auto"></i>
+                        </a>
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                        <a asp-controller="Appointments" asp-action="Create" class="dash-link-card">
+                            <i class="bi bi-calendar-plus-fill"></i>
+                            <span>Записатися на прийом</span>
+                            <i class="bi bi-arrow-right ms-auto"></i>
+                        </a>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="dash-empty">
+                    <i class="bi bi-bug"></i>
+                    <p>У вас ще немає зареєстрованих тварин</p>
+                    <a asp-controller="Admin" asp-action="CreateAnimal" class="btn-primary-pc mt-3 d-inline-block">
+                        <i class="bi bi-plus-circle me-2"></i>Додати тварину
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+}

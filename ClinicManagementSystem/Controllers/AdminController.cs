@@ -1,4 +1,5 @@
 ﻿using ClinicManagementSystem.Models;
+using ClinicManagementSystem.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -29,22 +30,32 @@ public class AdminController : Controller
         return View(users);
     }
 
+    [HttpGet]
     public IActionResult CreateUser()
     {
-        return View();
+        return View(new CreateUserViewModel());
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateUser(ApplicationUser model, string password)
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> CreateUser(CreateUserViewModel model)
     {
         if (!ModelState.IsValid)
             return View(model);
+        
+        var user = new ApplicationUser
+        {
+            UserName = model.Email,
+            Email = model.Email,
+            FirstName = model.FirstName,
+            LastName = model.LastName
+        };
 
-        var result = await _userManager.CreateAsync(model, password);
+        var result = await _userManager.CreateAsync(user, model.Password);
 
         if (result.Succeeded)
         {
-            await _userManager.AddToRoleAsync(model, "User");
+            await _userManager.AddToRoleAsync(user, "User");
             return RedirectToAction(nameof(Users));
         }
 
@@ -63,6 +74,7 @@ public class AdminController : Controller
     }
 
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> EditUser(ApplicationUser model)
     {
         var user = await _userManager.FindByIdAsync(model.Id);
@@ -73,17 +85,32 @@ public class AdminController : Controller
         user.Email = model.Email;
         user.UserName = model.Email;
 
-        await _userManager.UpdateAsync(user);
+        var result = await _userManager.UpdateAsync(user);
+ 
+        if (!result.Succeeded)
+        {
+            foreach (var error in result.Errors)
+                ModelState.AddModelError("", error.Description);
+            return View(model);
+        }
 
         return RedirectToAction(nameof(Users));
     }
 
+    [HttpPost]
     public async Task<IActionResult> DeleteUser(string id)
     {
         var user = await _userManager.FindByIdAsync(id);
         if (user == null) return NotFound();
 
-        await _userManager.DeleteAsync(user);
+        var result = await _userManager.DeleteAsync(user);
+ 
+        if (!result.Succeeded)
+        {
+            foreach (var error in result.Errors)
+                ModelState.AddModelError("", error.Description);
+        }
+        
         return RedirectToAction(nameof(Users));
     }
     // Тварини 
@@ -97,16 +124,24 @@ public class AdminController : Controller
         return View(animals);
     }
 
-    public IActionResult CreateAnimal()
+    [HttpGet]
+    public async Task<IActionResult> CreateAnimal()
     {
+        var clients = await _userManager.Users.ToListAsync();
+        ViewBag.Clients = clients;
         return View();
     }
 
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> CreateAnimal(Animal model)
     {
         if (!ModelState.IsValid)
+        {
+            var clients = await _userManager.Users.ToListAsync();
+            ViewBag.Clients = clients;
             return View(model);
+        }
 
         var card = new MedicalCard
         {
@@ -130,6 +165,7 @@ public class AdminController : Controller
         return RedirectToAction(nameof(Animals));
     }
 
+    [HttpPost]
     public async Task<IActionResult> DeleteAnimal(int id)
     {
         var animal = await _context.Animals.FindAsync(id);
@@ -158,7 +194,9 @@ public class AdminController : Controller
     public async Task<IActionResult> Patients()
     {
         var users = await _context.Users
-            .Include(u => u.Animals).ToListAsync();
+            .Include(u => u.Animals)
+            .ThenInclude(a => a.MedicalCard)
+            .ToListAsync();
         return View(users);
     }
 }

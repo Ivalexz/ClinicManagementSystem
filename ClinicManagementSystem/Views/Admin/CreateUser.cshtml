@@ -1,49 +1,115 @@
-﻿@model ApplicationUser
+﻿@using ClinicManagementSystem.ViewModels
+@model CreateUserViewModel
 
 @{
     ViewData["Title"] = "Створення користувача";
 }
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h2 class="fw-bold">Створення користувача</h2>
+<div class="auth-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-5 col-lg-4">
 
-    <a href="/Admin/Users" class="btn btn-secondary">
-        <i class="bi bi-arrow-left"></i> Назад
-    </a>
-</div>
+                <div class="auth-card">
+                    <div class="auth-logo mb-4">
+                        <div class="logo-icon mx-auto mb-3">
+                            <i class="bi bi-person-plus-fill"></i>
+                        </div>
+                        <h1 class="auth-title">Створити користувача</h1>
+                        <p class="auth-sub">Додайте нового користувача до системи</p>
+                    </div>
 
-<div class="card shadow-sm">
-    <div class="card-body">
+                    @if (ViewBag.Error != null)
+                    {
+                        <div class="auth-alert mb-3">
+                            <i class="bi bi-exclamation-circle-fill me-2"></i>@ViewBag.Error
+                        </div>
+                    }
 
-        <form method="post" asp-action="CreateUser">
+                    <form method="post" asp-action="CreateUser">
 
-            <div class="mb-3">
-                <label class="form-label fw-semibold">Ім'я</label>
-                <input asp-for="FirstName" class="form-control" placeholder="Введіть ім'я" />
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <label class="form-label">Ім'я</label>
+                                <div class="input-icon-wrap">
+                                    <i class="bi bi-person input-icon"></i>
+                                    <input asp-for="FirstName" class="form-control ps-input-icon"
+                                           placeholder="Ім'я" required autocomplete="given-name" />
+                                </div>
+                                <span asp-validation-for="FirstName" class="text-danger small d-block mt-1"></span>
+                            </div>
+
+                            <div class="col-6 mb-3">
+                                <label class="form-label">Прізвище</label>
+                                <div class="input-icon-wrap">
+                                    <i class="bi bi-person input-icon"></i>
+                                    <input asp-for="LastName" class="form-control ps-input-icon"
+                                           placeholder="Прізвище" required autocomplete="family-name" />
+                                </div>
+                                <span asp-validation-for="LastName" class="text-danger small d-block mt-1"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <div class="input-icon-wrap">
+                                <i class="bi bi-envelope input-icon"></i>
+                                <input asp-for="Email" class="form-control ps-input-icon"
+                                       placeholder="example@gmail.com" required autocomplete="email" />
+                            </div>
+                            <span asp-validation-for="Email" class="text-danger small d-block mt-1"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">Пароль</label>
+                            <div class="input-icon-wrap">
+                                <i class="bi bi-lock input-icon"></i>
+                                <input type="password" name="password" id="password" class="form-control ps-input-icon"
+                                       placeholder="••••••••" required autocomplete="new-password" />
+                            </div>
+                            <div class="password-hint mt-1">
+                                Мінімум 6 символів, велика літера та цифра
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn-submit">
+                            <i class="bi bi-check-circle me-2"></i>Створити користувача
+                        </button>
+                    </form>
+
+                    <p class="auth-footer-text mt-4">
+                        <a href="/Admin/Users" class="auth-link">
+                            <i class="bi bi-arrow-left me-1"></i>Назад до списку користувачів
+                        </a>
+                    </p>
+                </div>
+
             </div>
-
-            <div class="mb-3">
-                <label class="form-label fw-semibold">Прізвище</label>
-                <input asp-for="LastName" class="form-control" placeholder="Введіть прізвище" />
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label fw-semibold">Email</label>
-                <input asp-for="Email" class="form-control" placeholder="example@gmail.com" />
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label fw-semibold">Пароль</label>
-                <input type="password" name="password" class="form-control" placeholder="Введіть пароль" />
-            </div>
-
-            <div class="mt-4">
-                <button class="btn btn-primary">
-                    <i class="bi bi-check-circle"></i> Створити
-                </button>
-            </div>
-
-        </form>
-
+        </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        const firstName = document.querySelector('input[name="FirstName"]');
+        const lastName = document.querySelector('input[name="LastName"]');
+        const email = document.querySelector('input[name="Email"]');
+        const pwd = document.getElementById('password');
+        const btn = document.querySelector('.btn-submit');
+
+        function validateForm() {
+            const isNameValid = firstName.value.trim().length > 0 && lastName.value.trim().length > 0;
+            const isEmailValid = email.value.trim().length > 0 && /^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/.test(email.value);
+            const isPwdValid = pwd.value.length >= 6;
+
+            btn.disabled = !(isNameValid && isEmailValid && isPwdValid);
+        }
+
+        firstName.addEventListener('input', validateForm);
+        lastName.addEventListener('input', validateForm);
+        email.addEventListener('input', validateForm);
+        pwd.addEventListener('input', validateForm);
+
+        validateForm();
+    </script>
+}

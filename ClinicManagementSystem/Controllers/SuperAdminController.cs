@@ -47,6 +47,13 @@ public class SuperAdminController : Controller
         if (!ModelState.IsValid)
             return View(model);
 
+        //валідація пароля
+        if (string.IsNullOrWhiteSpace(password) || password.Length < 6)
+        {
+            ModelState.AddModelError("", "Пароль повинен бути мінімум 6 символів");
+            return View(model);
+        }
+        
         model.UserName = model.Email;
         var result = await _userManager.CreateAsync(model, password);
 
@@ -76,6 +83,13 @@ public class SuperAdminController : Controller
     {
         if (!ModelState.IsValid)
             return View(vm);
+        
+        //валідація пароля
+        if (string.IsNullOrWhiteSpace(vm.Password) || vm.Password.Length < 6)
+        {
+            ModelState.AddModelError("", "Пароль повинен бути мінімум 6 символів");
+            return View(vm);
+        }
 
         vm.User.UserName = vm.User.Email;
 
@@ -118,8 +132,15 @@ public class SuperAdminController : Controller
         user.Email = model.Email;
         user.UserName = model.Email;
 
-        await _userManager.UpdateAsync(user);
-
+        var result = await _userManager.UpdateAsync(user);
+ 
+        if (!result.Succeeded)
+        {
+            foreach (var error in result.Errors)
+                ModelState.AddModelError("", error.Description);
+            return View(model);
+        }
+        
         return RedirectToAction(nameof(Index));
     }
     
@@ -128,7 +149,13 @@ public class SuperAdminController : Controller
         var user = await _userManager.FindByIdAsync(id);
         if (user == null) return NotFound();
 
-        await _userManager.DeleteAsync(user);
+        var result = await _userManager.DeleteAsync(user);
+ 
+        if (!result.Succeeded)
+        {
+            foreach (var error in result.Errors)
+                ModelState.AddModelError("", error.Description);
+        }
 
         return RedirectToAction(nameof(Index));
     }
