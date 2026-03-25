@@ -2,97 +2,175 @@
     ViewData["Title"] = "Super Admin Панель";
 }
 
-<div class="d-flex justify-content-center mb-4">
-    <h2 class="fw-bold text-center">Super Admin Панель</h2>
-</div>
-
-<div class="row g-4 justify-content-center">
-
-    <!-- Адміни -->
-    <div class="col-md-6 col-lg-4 d-flex justify-content-center">
-        <div class="card super-card shadow-lg border-0">
-            <div class="card-body d-flex flex-column">
-
-                <div class="icon-circle bg-primary bg-opacity-10 text-primary mb-3">
-                    <i class="bi bi-shield-lock-fill"></i>
-                </div>
-
-                <h5 class="card-title fw-bold mb-2">Адміни</h5>
-
-                <p class="text-muted flex-grow-1">
-                    Керування адміністраторами системи
-                </p>
-
-                <a href="/SuperAdmin/Admins" class="btn btn-primary w-100 mb-2">
-                    <i class="bi bi-card-list"></i> Список адмінів
-                </a>
-
-                <a href="/SuperAdmin/CreateAdmin" class="btn btn-outline-primary w-100">
-                    <i class="bi bi-person-plus-fill"></i> Створити адміна
-                </a>
-
-            </div>
-        </div>
-    </div>
-
-    <!-- Доктори -->
-    <div class="col-md-6 col-lg-4 d-flex justify-content-center">
-        <div class="card super-card shadow-lg border-0">
-            <div class="card-body d-flex flex-column">
-
-                <div class="icon-circle bg-success bg-opacity-10 text-success mb-3">
-                    <i class="bi bi-heart-pulse-fill"></i>
-                </div>
-
-                <h5 class="card-title fw-bold mb-2">Доктори</h5>
-
-                <p class="text-muted flex-grow-1">
-                    Керування лікарями клініки
-                </p>
-
-                <a href="/SuperAdmin/Doctors" class="btn btn-success w-100 mb-2">
-                    <i class="bi bi-card-list"></i> Список докторів
-                </a>
-
-                <a href="/SuperAdmin/CreateDoctor" class="btn btn-outline-success w-100">
-                    <i class="bi bi-person-plus-fill"></i> Створити доктора
-                </a>
-
-            </div>
-        </div>
-    </div>
-
-</div>
-
 <style>
-    .super-card {
-        width: 100%;
-        max-width: 360px;
-        min-height: 330px;
-        border-radius: 18px;
-        padding: 6px;
-        background: linear-gradient(145deg, #ffffff, #f3f6ff);
-        transition: transform .25s ease, box-shadow .25s ease;
+    /* ── shared ── */
+    @* include pawcare-shared.css via <link> in _Layout, or paste inline per page *@
+    :root {
+        --green-900:#0f3d2a;--green-700:#198754;--green-500:#34c77b;
+        --green-100:#f0faf5;--accent:#52e0a0;--text-main:#111827;
+        --text-muted:#6b7280;--border:#e5e7eb;--card-bg:#fff;
+        --radius-lg:20px;--radius-md:14px;--radius-sm:10px;
+        --shadow-sm:0 2px 8px rgba(0,0,0,.06);--shadow-md:0 8px 32px rgba(0,0,0,.09);
     }
+    .pw-page{padding:2.5rem 0 3rem}
+    .pw-title{font-family:'Fraunces',serif;font-size:1.9rem;font-weight:700;color:var(--text-main);margin:0}
+    .pw-title span{color:var(--green-700)}
 
-    .super-card:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 18px 40px rgba(0,0,0,0.15);
+    /* hero strip */
+    .sa-hero{
+        background:linear-gradient(135deg,var(--green-900) 0%,#0f5132 60%,var(--green-700) 100%);
+        border-radius:var(--radius-lg);
+        padding:2.5rem 2.8rem;
+        margin-bottom:2.5rem;
+        position:relative;
+        overflow:hidden;
+        color:#fff;
     }
+    .sa-hero::before{
+        content:'🐾';
+        position:absolute;right:-20px;top:-20px;
+        font-size:160px;opacity:.06;
+        pointer-events:none;
+    }
+    .sa-hero-title{font-family:'Fraunces',serif;font-size:2rem;font-weight:700;margin-bottom:.3rem}
+    .sa-hero-sub{font-family:'DM Sans',sans-serif;font-size:.9rem;color:rgba(255,255,255,.65)}
 
-    .icon-circle {
-        width: 64px;
-        height: 64px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 28px;
-        margin-bottom: 12px;
+    /* stat pills in hero */
+    .sa-stat{
+        background:rgba(255,255,255,.12);
+        border:1px solid rgba(255,255,255,.2);
+        border-radius:12px;padding:.6rem 1.3rem;
+        text-align:center;
+        font-family:'DM Sans',sans-serif;
     }
+    .sa-stat-num{font-size:1.5rem;font-weight:700;line-height:1}
+    .sa-stat-label{font-size:.72rem;color:rgba(255,255,255,.65);letter-spacing:.05em;text-transform:uppercase;margin-top:2px}
 
-    h2 {
-        font-size: 2rem;
-        letter-spacing: 0.5px;
+    /* panel cards */
+    .sa-card{
+        background:var(--card-bg);
+        border:1.5px solid var(--border);
+        border-radius:var(--radius-lg);
+        box-shadow:var(--shadow-md);
+        padding:1.8rem;
+        display:flex;
+        flex-direction:column;
+        gap:1rem;
+        transition:transform .25s,box-shadow .25s;
+        height:100%;
     }
+    .sa-card:hover{transform:translateY(-6px);box-shadow:0 20px 48px rgba(0,0,0,.11)}
+
+    .sa-icon{
+        width:56px;height:56px;border-radius:16px;
+        display:flex;align-items:center;justify-content:center;
+        font-size:1.5rem;
+    }
+    .sa-icon--blue {background:rgba(59,130,246,.1);color:#2563eb}
+    .sa-icon--green{background:rgba(25,135,84,.1);color:var(--green-700)}
+
+    .sa-card-title{font-family:'Fraunces',serif;font-size:1.15rem;font-weight:700;color:var(--text-main);margin:0}
+    .sa-card-desc{font-family:'DM Sans',sans-serif;font-size:.875rem;color:var(--text-muted);flex-grow:1;margin:0}
+
+    .pw-btn-primary{
+        font-family:'DM Sans',sans-serif;font-size:.875rem;font-weight:500;color:#fff;
+        background:linear-gradient(135deg,var(--green-700) 0%,#0f6e43 100%);
+        border:none;border-radius:var(--radius-sm);padding:.6rem 1.2rem;
+        text-decoration:none;display:inline-flex;align-items:center;gap:.4rem;
+        box-shadow:0 4px 14px rgba(25,135,84,.25);
+        transition:filter .2s,transform .15s;cursor:pointer;
+    }
+    .pw-btn-primary:hover{filter:brightness(1.07);transform:translateY(-1px);color:#fff}
+
+    .pw-btn-outline{
+        font-family:'DM Sans',sans-serif;font-size:.875rem;font-weight:500;
+        color:var(--green-700);background:var(--green-100);
+        border:1.5px solid rgba(25,135,84,.25);border-radius:var(--radius-sm);
+        padding:.55rem 1.2rem;text-decoration:none;
+        display:inline-flex;align-items:center;gap:.4rem;
+        transition:background .2s,border-color .2s;
+    }
+    .pw-btn-outline:hover{background:#d8f5e8;border-color:var(--green-700);color:var(--green-700)}
+    .pw-btn-outline--blue{color:#2563eb;background:rgba(59,130,246,.07);border-color:rgba(59,130,246,.25)}
+    .pw-btn-outline--blue:hover{background:rgba(59,130,246,.13);border-color:#2563eb;color:#2563eb}
+    .pw-btn-solid--blue{
+        font-family:'DM Sans',sans-serif;font-size:.875rem;font-weight:500;color:#fff;
+        background:linear-gradient(135deg,#2563eb,#1d4ed8);
+        border:none;border-radius:var(--radius-sm);padding:.6rem 1.2rem;
+        text-decoration:none;display:inline-flex;align-items:center;gap:.4rem;
+        box-shadow:0 4px 14px rgba(37,99,235,.25);
+        transition:filter .2s,transform .15s;
+    }
+    .pw-btn-solid--blue:hover{filter:brightness(1.07);transform:translateY(-1px);color:#fff}
 </style>
+
+<div class="pw-page">
+    <div class="container">
+
+        @* hero *@
+        <div class="sa-hero">
+            <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
+                <div>
+                    <div class="sa-hero-title">Super Admin Панель</div>
+                    <div class="sa-hero-sub">Повне керування клінікою PawCare</div>
+                </div>
+                <div class="d-flex gap-3 flex-wrap">
+                    <div class="sa-stat">
+                        <div class="sa-stat-num">@(ViewBag.AdminCount ?? 0)</div>
+                        <div class="sa-stat-label">Адмінів</div>
+                    </div>
+                    <div class="sa-stat">
+                        <div class="sa-stat-num">@(ViewBag.DoctorCount ?? 0)</div>
+                        <div class="sa-stat-label">Докторів</div>
+                    </div>
+                    <div class="sa-stat">
+                        <div class="sa-stat-num">@(ViewBag.AppointmentCount ?? 0)</div>
+                        <div class="sa-stat-label">Прийомів</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @* panel cards *@
+        <div class="row g-4">
+
+            <div class="col-md-6 col-xl-4">
+                <div class="sa-card">
+                    <div class="sa-icon sa-icon--blue"><i class="bi bi-shield-lock-fill"></i></div>
+                    <div>
+                        <p class="sa-card-title">Адміни</p>
+                        <p class="sa-card-desc">Керування адміністраторами системи — додавання, редагування, видалення.</p>
+                    </div>
+                    <div class="d-flex flex-column gap-2 mt-auto">
+                        <a href="/SuperAdmin/Admins" class="pw-btn-solid--blue">
+                            <i class="bi bi-card-list"></i> Список адмінів
+                        </a>
+                        <a href="/SuperAdmin/CreateAdmin" class="pw-btn-outline pw-btn-outline--blue">
+                            <i class="bi bi-person-plus-fill"></i> Створити адміна
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-xl-4">
+                <div class="sa-card">
+                    <div class="sa-icon sa-icon--green"><i class="bi bi-heart-pulse-fill"></i></div>
+                    <div>
+                        <p class="sa-card-title">Доктори</p>
+                        <p class="sa-card-desc">Керування лікарями клініки — профілі, спеціалізації, графіки роботи.</p>
+                    </div>
+                    <div class="d-flex flex-column gap-2 mt-auto">
+                        <a href="/SuperAdmin/Doctors" class="pw-btn-primary">
+                            <i class="bi bi-card-list"></i> Список докторів
+                        </a>
+                        <a href="/SuperAdmin/CreateDoctor" class="pw-btn-outline">
+                            <i class="bi bi-person-plus-fill"></i> Створити доктора
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>

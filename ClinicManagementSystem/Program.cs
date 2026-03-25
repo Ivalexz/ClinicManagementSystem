@@ -48,6 +48,9 @@ public class Program
 
         using (var scope = app.Services.CreateScope())
         {
+            var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+            await db.Database.MigrateAsync();
+            
             var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
@@ -56,7 +59,18 @@ public class Program
             foreach (var role in roles)
             {
                 if (!await roleManager.RoleExistsAsync(role))
-                    await roleManager.CreateAsync(new IdentityRole(role));
+                {
+                    var createResult = await roleManager.CreateAsync(new IdentityRole(role));
+
+                    if (createResult.Succeeded)
+                        Console.WriteLine($"✓ Роль '{role}' створена");
+                    else
+                        Console.WriteLine($"✗ Помилка створення ролі '{role}': {string.Join(", ", createResult.Errors.Select(e => e.Description))}");
+                }
+                else
+                {
+                    Console.WriteLine($"✓ Роль '{role}' вже існує");
+                }
             }
 
             // Create SuperAdmin

@@ -17,6 +17,7 @@
                         </div>
                         <h1 class="auth-title">Створити користувача</h1>
                         <p class="auth-sub">Додайте нового користувача до системи</p>
+                        <div asp-validation-summary="All"></div>
                     </div>
 
                     @if (ViewBag.Error != null)
@@ -64,12 +65,26 @@
                             <label class="form-label">Пароль</label>
                             <div class="input-icon-wrap">
                                 <i class="bi bi-lock input-icon"></i>
-                                <input type="password" name="password" id="password" class="form-control ps-input-icon"
-                                       placeholder="••••••••" required autocomplete="new-password" />
+                                <input asp-for="Password" id="password"
+                                       class="form-control ps-input-icon"
+                                       placeholder="••••••••"
+                                       required autocomplete="new-password" />
                             </div>
                             <div class="password-hint mt-1">
                                 Мінімум 6 символів, велика літера та цифра
                             </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="form-label">Підтвердження пароля</label>
+                            <div class="input-icon-wrap">
+                                <i class="bi bi-lock-fill input-icon"></i>
+                                <input asp-for="ConfirmPassword" type="password"
+                                       class="form-control ps-input-icon"
+                                       placeholder="••••••••"
+                                       required autocomplete="new-password" />
+                            </div>
+                            <span asp-validation-for="ConfirmPassword" class="text-danger small d-block mt-1"></span>
                         </div>
 
                         <button type="submit" class="btn-submit">

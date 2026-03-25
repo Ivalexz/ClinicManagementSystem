@@ -33,6 +33,8 @@ public class AdminController : Controller
     [HttpGet]
     public IActionResult CreateUser()
     {
+        Console.WriteLine(" 🔴 DB path: " + 
+                          _context.Database.GetDbConnection().DataSource);
         return View(new CreateUserViewModel());
     }
 
@@ -42,6 +44,8 @@ public class AdminController : Controller
     {
         if (!ModelState.IsValid)
             return View(model);
+        Console.WriteLine(" 🔴 DB path: " + 
+                          _context.Database.GetDbConnection().DataSource);
         
         var user = new ApplicationUser
         {
@@ -52,6 +56,7 @@ public class AdminController : Controller
         };
 
         var result = await _userManager.CreateAsync(user, model.Password);
+        Console.WriteLine(result.Succeeded);
 
         if (result.Succeeded)
         {

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using ClinicManagementSystem.Models;
+using System.ComponentModel.DataAnnotations.Schema;
 
 public class Doctor
 {
@@ -7,6 +8,7 @@ public class Doctor
 
     [Required]
     public string UserId { get; set; }
+    [ForeignKey("UserId")]
     public ApplicationUser User { get; set; }
 
     [Required]

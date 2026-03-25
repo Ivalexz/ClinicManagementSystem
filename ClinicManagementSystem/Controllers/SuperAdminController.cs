@@ -71,44 +71,53 @@ public class SuperAdminController : Controller
 
     public IActionResult CreateDoctor()
     {
-        return View(new CreateDoctorViewModel
-        {
-            User = new ApplicationUser(),
-            Doctor = new Doctor()
-        });
+        return View();
     }
-
+    
     [HttpPost]
     public async Task<IActionResult> CreateDoctor(CreateDoctorViewModel vm)
     {
         if (!ModelState.IsValid)
             return View(vm);
         
-        //валідація пароля
-        if (string.IsNullOrWhiteSpace(vm.Password) || vm.Password.Length < 6)
+
+        var user = new ApplicationUser
         {
-            ModelState.AddModelError("", "Пароль повинен бути мінімум 6 символів");
-            return View(vm);
-        }
+            UserName = vm.Email,
+            Email = vm.Email,
+            FirstName = vm.FirstName,
+            LastName = vm.LastName
+        };
 
-        vm.User.UserName = vm.User.Email;
-
-        var result = await _userManager.CreateAsync(vm.User, vm.Password);
-
+        var result = await _userManager.CreateAsync(user, vm.Password);
+        
         if (result.Succeeded)
         {
-            await _userManager.AddToRoleAsync(vm.User, "Doctor");
+            var addRoleResult = await _userManager.AddToRoleAsync(user, "Doctor");
 
-            vm.Doctor.UserId = vm.User.Id;
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                    ModelState.AddModelError("", error.Description);
+                return View(vm);
+            }
+            
+            var doctor = new Doctor
+            {
+                UserId = user.Id,
+                Specialization = vm.Specialization,
+                ExperienceYears = vm.ExperienceYears,
+                OfficeNumber = vm.OfficeNumber,
+                Phone = vm.Phone,
+                EducationDocument = vm.EducationDocument,
+                Description = vm.Description
+            };
 
-            _context.Doctors.Add(vm.Doctor);
+            _context.Doctors.Add(doctor);
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Doctors));
         }
-
-        foreach (var error in result.Errors)
-            ModelState.AddModelError("", error.Description);
 
         return View(vm);
     }

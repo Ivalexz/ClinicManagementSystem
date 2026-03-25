@@ -1,5 +1,5 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ClinicManagementSystem.Models
 {
@@ -27,6 +27,7 @@ namespace ClinicManagementSystem.Models
 
         [Required]
         public string ClientId { get; set; }
+        [ForeignKey("ClientId")]
         public ApplicationUser Client { get; set; }
 
         public int MedicalCardId { get; set; }

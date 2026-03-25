@@ -1,52 +1,102 @@
 ﻿@model IEnumerable<ApplicationUser>
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h2 class="fw-bold">Доктори</h2>
+@{
+    ViewData["Title"] = "Доктори";
+}
 
-    <a href="/SuperAdmin/CreateDoctor" class="btn btn-success">
-        <i class="bi bi-person-plus-fill"></i> Створити доктора
-    </a>
-</div>
+<style>
+    :root{--green-900:#0f3d2a;--green-700:#198754;--green-100:#f0faf5;--text-main:#111827;--text-muted:#6b7280;--border:#e5e7eb;--radius-lg:20px;--radius-sm:10px;--shadow-md:0 8px 32px rgba(0,0,0,.09)}
+    .pw-page{padding:2.5rem 0 3rem}
+    .pw-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;gap:1rem;flex-wrap:wrap}
+    .pw-title{font-family:'Fraunces',serif;font-size:1.9rem;font-weight:700;color:var(--text-main);margin:0}
+    .pw-card{background:#fff;border-radius:var(--radius-lg);box-shadow:var(--shadow-md);border:1.5px solid var(--border);overflow:hidden}
+    .pw-btn-back{font-family:'DM Sans',sans-serif;font-size:.875rem;font-weight:500;color:var(--text-muted);background:#fff;border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:.5rem 1.1rem;text-decoration:none;display:inline-flex;align-items:center;gap:.4rem;transition:border-color .2s,color .2s}
+    .pw-btn-back:hover{border-color:var(--green-700);color:var(--green-700)}
+    .pw-btn-primary{font-family:'DM Sans',sans-serif;font-size:.875rem;font-weight:500;color:#fff;background:linear-gradient(135deg,var(--green-700),#0f6e43);border:none;border-radius:var(--radius-sm);padding:.55rem 1.2rem;text-decoration:none;display:inline-flex;align-items:center;gap:.4rem;box-shadow:0 4px 14px rgba(25,135,84,.25);transition:filter .2s,transform .15s;cursor:pointer}
+    .pw-btn-primary:hover{filter:brightness(1.07);transform:translateY(-1px);color:#fff}
+    .pw-table{width:100%;border-collapse:collapse;font-family:'DM Sans',sans-serif;font-size:.9rem}
+    .pw-table thead th{background:var(--green-100);color:var(--green-900);font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:.85rem 1.2rem;border-bottom:2px solid rgba(25,135,84,.15)}
+    .pw-table tbody tr{border-bottom:1px solid var(--border);transition:background .15s}
+    .pw-table tbody tr:last-child{border-bottom:none}
+    .pw-table tbody tr:hover{background:var(--green-100)}
+    .pw-table td{padding:.85rem 1.2rem;color:var(--text-main);vertical-align:middle}
+    .pw-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--green-700),#52e0a0);color:#fff;font-size:.78rem;font-weight:700;display:inline-flex;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif;flex-shrink:0}
+    .pw-tbl-btn{font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:500;border-radius:8px;padding:.35rem .75rem;border:1.5px solid transparent;text-decoration:none;display:inline-flex;align-items:center;gap:.3rem;transition:background .15s,border-color .15s,transform .12s;cursor:pointer;background:none}
+    .pw-tbl-btn:hover{transform:translateY(-1px)}
+    .pw-tbl-btn--edit{border-color:#f59e0b;color:#b45309}
+    .pw-tbl-btn--edit:hover{background:#fffbeb;border-color:#d97706;color:#92400e}
+    .pw-tbl-btn--del{border-color:#f87171;color:#dc2626}
+    .pw-tbl-btn--del:hover{background:#fef2f2;border-color:#ef4444;color:#b91c1c}
+    .pw-empty{text-align:center;padding:3.5rem 1rem;color:var(--text-muted);font-family:'DM Sans',sans-serif}
+    .pw-empty i{font-size:2.5rem;opacity:.3;display:block;margin-bottom:.75rem}
+    .pw-badge-role{font-family:'DM Sans',sans-serif;font-size:.7rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;background:rgba(25,135,84,.1);color:var(--green-700);border-radius:6px;padding:.2rem .55rem}
+</style>
 
-<div class="card shadow-sm">
-    <div class="card-body p-0">
+<div class="pw-page">
+    <div class="container">
 
-        <table class="table table-hover table-striped mb-0">
-            <thead class="table-primary">
-            <tr>
-                <th>Ім'я</th>
-                <th>Прізвище</th>
-                <th>Email</th>
-                <th class="text-center" style="width: 200px;">Дії</th>
-            </tr>
-            </thead>
+        <div class="pw-header">
+            <h1 class="pw-title">Доктори</h1>
+            <div class="d-flex gap-2">
+                <a href="/SuperAdmin" class="pw-btn-back">
+                    <i class="bi bi-arrow-left"></i> Назад
+                </a>
+                <a href="/SuperAdmin/CreateDoctor" class="pw-btn-primary">
+                    <i class="bi bi-person-plus-fill"></i> Створити доктора
+                </a>
+            </div>
+        </div>
 
-            <tbody>
-            @foreach (var user in Model)
+        <div class="pw-card">
+            @if (!Model.Any())
             {
-                <tr>
-                    <td>@user.FirstName</td>
-                    <td>@user.LastName</td>
-                    <td>@user.Email</td>
-
-                    <td class="text-center">
-
-                        <a href="/SuperAdmin/Edit/@user.Id"
-                           class="btn btn-outline-warning btn-sm me-1">
-                            <i class="bi bi-pencil-square"></i> Редагувати
-                        </a>
-
-                        <a href="/SuperAdmin/Delete/@user.Id"
-                           class="btn btn-outline-danger btn-sm"
-                           onclick="return confirm('Видалити доктора?')">
-                            <i class="bi bi-trash"></i> Видалити
-                        </a>
-
-                    </td>
-                </tr>
+                <div class="pw-empty">
+                    <i class="bi bi-heart-pulse"></i>
+                    Докторів ще немає. Додайте першого!
+                </div>
             }
-            </tbody>
-        </table>
+            else
+            {
+                <table class="pw-table">
+                    <thead>
+                        <tr>
+                            <th>Лікар</th>
+                            <th>Email</th>
+                            <th>Роль</th>
+                            <th class="text-center" style="width:180px">Дії</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var user in Model)
+                    {
+                        var initials = $"{user.FirstName?.FirstOrDefault()}{user.LastName?.FirstOrDefault()}".ToUpper();
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center gap-2">
+                                    <div class="pw-avatar">@initials</div>
+                                    <div>
+                                        <div style="font-weight:600">@user.FirstName @user.LastName</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td style="color:var(--text-muted)">@user.Email</td>
+                            <td><span class="pw-badge-role">Doctor</span></td>
+                            <td class="text-center">
+                                <a href="/SuperAdmin/Edit/@user.Id" class="pw-tbl-btn pw-tbl-btn--edit">
+                                    <i class="bi bi-pencil-square"></i> Редагувати
+                                </a>
+                                <a href="/SuperAdmin/Delete/@user.Id"
+                                   class="pw-tbl-btn pw-tbl-btn--del"
+                                   onclick="return confirm('Видалити доктора?')">
+                                    <i class="bi bi-trash"></i> Видалити
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            }
+        </div>
 
     </div>
 </div>

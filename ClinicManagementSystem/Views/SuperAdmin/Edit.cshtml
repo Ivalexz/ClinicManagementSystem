@@ -1,42 +1,108 @@
 ﻿@model ApplicationUser
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h2 class="fw-bold">Редагування користувача</h2>
+@{
+    ViewData["Title"] = "Редагування користувача";
+}
 
-    <a href="/SuperAdmin" class="btn btn-secondary">
-        <i class="bi bi-arrow-left"></i> Назад
-    </a>
-</div>
+<style>
+    :root{--green-900:#0f3d2a;--green-700:#198754;--green-100:#f0faf5;--text-main:#111827;--text-muted:#6b7280;--border:#e5e7eb;--radius-lg:20px;--radius-sm:10px;--shadow-md:0 8px 32px rgba(0,0,0,.09)}
+    .pw-page{padding:2.5rem 0 3rem}
+    .pw-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;gap:1rem;flex-wrap:wrap}
+    .pw-title{font-family:'Fraunces',serif;font-size:1.9rem;font-weight:700;color:var(--text-main);margin:0}
+    .pw-card{background:#fff;border-radius:var(--radius-lg);box-shadow:var(--shadow-md);border:1.5px solid var(--border);overflow:hidden}
+    .pw-btn-back{font-family:'DM Sans',sans-serif;font-size:.875rem;font-weight:500;color:var(--text-muted);background:#fff;border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:.5rem 1.1rem;text-decoration:none;display:inline-flex;align-items:center;gap:.4rem;transition:border-color .2s,color .2s}
+    .pw-btn-back:hover{border-color:var(--green-700);color:var(--green-700)}
+    .pw-form-body{padding:2.2rem 2.4rem}
+    .pw-label{font-family:'DM Sans',sans-serif;font-size:.75rem;font-weight:600;color:var(--text-muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:.4rem;display:block}
+    .pw-input{font-family:'DM Sans',sans-serif;font-size:.95rem;color:var(--text-main);background:#fafafa;border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:.65rem 1rem;width:100%;transition:border-color .2s,box-shadow .2s,background .2s}
+    .pw-input:focus{outline:none;border-color:var(--green-700);box-shadow:0 0 0 3px rgba(25,135,84,.11);background:#fff}
+    .pw-form-footer{padding:1.3rem 2.4rem 2rem;border-top:1.5px solid var(--green-100);background:var(--green-100);display:flex;align-items:center;gap:1rem}
+    .pw-btn-save{font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:500;color:#fff;background:linear-gradient(135deg,#f59e0b,#d97706);border:none;border-radius:var(--radius-sm);padding:.65rem 1.5rem;display:inline-flex;align-items:center;gap:.45rem;box-shadow:0 4px 14px rgba(245,158,11,.25);transition:filter .2s,transform .15s;cursor:pointer}
+    .pw-btn-save:hover{filter:brightness(1.07);transform:translateY(-1px)}
+    .pw-section-title{font-family:'Fraunces',serif;font-size:1.05rem;font-weight:700;color:var(--text-main);margin-bottom:1.2rem;padding-bottom:.6rem;border-bottom:2px solid var(--green-100);display:flex;align-items:center;gap:.5rem}
+    .pw-section-title i{color:var(--green-700)}
 
-<div class="card shadow-sm">
-    <div class="card-body">
+    /* user info strip */
+    .pw-user-strip{
+        background:linear-gradient(135deg,var(--green-900),#0f5132);
+        border-radius:var(--radius-sm);
+        padding:1rem 1.3rem;
+        display:flex;align-items:center;gap:1rem;
+        margin-bottom:1.8rem;
+        color:#fff;
+    }
+    .pw-user-strip-avatar{
+        width:48px;height:48px;border-radius:50%;
+        background:rgba(255,255,255,.15);
+        font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:700;
+        display:flex;align-items:center;justify-content:center;flex-shrink:0;
+    }
+    .pw-user-strip-name{font-family:'Fraunces',serif;font-size:1rem;font-weight:700}
+    .pw-user-strip-id{font-family:'DM Sans',sans-serif;font-size:.75rem;color:rgba(255,255,255,.55);margin-top:1px}
+</style>
 
-        <form method="post" asp-action="Edit">
+<div class="pw-page">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-7 col-lg-9">
 
-            <input type="hidden" asp-for="Id" />
+                <div class="pw-header">
+                    <h1 class="pw-title">Редагування користувача</h1>
+                    <a href="/SuperAdmin" class="pw-btn-back">
+                        <i class="bi bi-arrow-left"></i> Назад
+                    </a>
+                </div>
 
-            <div class="mb-3">
-                <label class="form-label fw-semibold">Ім'я</label>
-                <input asp-for="FirstName" class="form-control" placeholder="Введіть ім'я" />
+                <div class="pw-card">
+                    <form method="post" asp-action="Edit">
+                        <input type="hidden" asp-for="Id" />
+
+                        <div class="pw-form-body">
+
+                            <div class="pw-section-title">
+                                <i class="bi bi-person-gear"></i> Інформація про користувача
+                            </div>
+
+                            @{
+                                var initials = $"{Model?.FirstName?.FirstOrDefault()}{Model?.LastName?.FirstOrDefault()}".ToUpper();
+                            }
+                            <div class="pw-user-strip">
+                                <div class="pw-user-strip-avatar">@initials</div>
+                                <div>
+                                    <div class="pw-user-strip-name">@Model?.FirstName @Model?.LastName</div>
+                                    <div class="pw-user-strip-id">ID: @Model?.Id</div>
+                                </div>
+                            </div>
+
+                            <div class="row g-3 mb-3">
+                                <div class="col-sm-6">
+                                    <label class="pw-label">Ім'я</label>
+                                    <input asp-for="FirstName" class="pw-input" placeholder="Введіть ім'я" />
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="pw-label">Прізвище</label>
+                                    <input asp-for="LastName" class="pw-input" placeholder="Введіть прізвище" />
+                                </div>
+                            </div>
+
+                            <div class="mb-1">
+                                <label class="pw-label">Email</label>
+                                <input asp-for="Email" class="pw-input" placeholder="example@gmail.com" />
+                            </div>
+
+                        </div>
+
+                        <div class="pw-form-footer">
+                            <button type="submit" class="pw-btn-save">
+                                <i class="bi bi-save"></i> Зберегти зміни
+                            </button>
+                            <a href="/SuperAdmin" class="pw-btn-back">Скасувати</a>
+                        </div>
+
+                    </form>
+                </div>
+
             </div>
-
-            <div class="mb-3">
-                <label class="form-label fw-semibold">Прізвище</label>
-                <input asp-for="LastName" class="form-control" placeholder="Введіть прізвище" />
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label fw-semibold">Email</label>
-                <input asp-for="Email" class="form-control" placeholder="example@gmail.com" />
-            </div>
-
-            <div class="mt-4">
-                <button class="btn btn-warning">
-                    <i class="bi bi-save"></i> Зберегти
-                </button>
-            </div>
-
-        </form>
-
+        </div>
     </div>
 </div>

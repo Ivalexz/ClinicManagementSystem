@@ -34,7 +34,7 @@ namespace ClinicManagementSystem.Models
 
             builder.Entity<Animal>()
                 .HasOne(a => a.Client)
-                .WithMany()
+                .WithMany(u => u.Animals)
                 .HasForeignKey(a => a.ClientId)
                 .OnDelete(DeleteBehavior.Cascade);
 
